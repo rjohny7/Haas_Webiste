@@ -16,10 +16,18 @@ function App(){
                <Route path="/" exact component={Home} /> 
             </Switch>
             <Switch>
-               <Route path="/LOCATION-ONE" exact component = {availabilityTable}/> 
+               <Route 
+                  path="/computing-resources" 
+                  exact component={availabilityTable}
+               />
             </Switch>
             <Switch>
-               <Route path="/LOCATION-TWO" exact component = {Carousel}/> 
+               <Route 
+                  path="/LOCATION-TWO" 
+                  render={(props) => (
+                     <Carousel {...props} init={0} />
+                   )}
+               /> 
             </Switch>
             <Switch>
                <Route path="/LOCATION-THREE" exact /> 

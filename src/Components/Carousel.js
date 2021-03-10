@@ -3,13 +3,14 @@ import background from './background.jpg';
 import img1 from './img1.jpg';
 import img2 from './img2.jpg';
 import './Carousel.css'
-const Carousel = () =>{
+
+const Carousel = (props) =>{
     const images = [
         background,
         img1,
         img2
     ];
-    const[index,setIndex] = useState(0);
+    const[index,setIndex] = useState(props.init);
     const leftClick = () =>{
         setIndex((index+1)%images.length);
     };

@@ -17,8 +17,8 @@ function Navbar(){
                     <ul className="nav-menu">
                         <li className="nav-item">
                             {/* change / to route location */}
-                            <Link to="/LOCATION-ONE" className="nav-links">
-                                LOCATION-ONE
+                            <Link to="/computing-resources" className="nav-links">
+                                Computing Resources
                             </Link>
                         </li>
                         <li className="nav-item">
