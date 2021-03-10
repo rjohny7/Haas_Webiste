@@ -1,0 +1,10 @@
+.layout {
+    max-width: 200;
+    margin: "auto";
+}
+
+.pic{
+    margin-top: '30';
+    height: 0;
+    padding-top: "56.25%";
+}
