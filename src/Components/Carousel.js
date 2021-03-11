@@ -10,6 +10,13 @@ const Carousel = (props) =>{
         img1,
         img2
     ];
+
+    const captions = [
+       'Background Image',
+       'Hardware Image 2',
+       'Hardware Image 1'
+    ];
+
     const[index,setIndex] = useState(props.init);
     const leftClick = () =>{
         setIndex((index+1)%images.length);
@@ -30,6 +37,7 @@ const Carousel = (props) =>{
             <button className="left" onClick={leftClick}>{"<"}</button>
             <img className="pic" src={images[index]} alt={index}/>
             <button className="right" onClick={rightClick}>{">"}</button>
+            <p className="caption">{captions[index]}</p>
         </div>
     )
 }

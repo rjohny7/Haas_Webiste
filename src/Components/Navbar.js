@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
+import Logo from './favicon.ico'
 
 function Navbar(){
     // This fills 1 hook requirement, need one more (same way as video source from Part 3 reference material)
@@ -12,7 +13,7 @@ function Navbar(){
                 <div className="navbar-container">
                     {/* We would use the icon here */}
                     <Link to="/" className="navbar-logo">
-                        LOGO
+                        <img src={Logo}/>
                     </Link>
                     <ul className="nav-menu">
                         <li className="nav-item">

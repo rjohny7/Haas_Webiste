@@ -66,3 +66,8 @@
 .menu-icon {
     display: none;
 }
+
+.caption {
+    color:blue;
+    margin-left: 340px;
+}
