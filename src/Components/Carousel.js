@@ -5,19 +5,23 @@ import img2 from './img2.jpg';
 import './Carousel.css'
 
 const Carousel = (props) =>{
+
+    //Array of images to be displayed
     const images = [
         background,
         img1,
         img2
     ];
 
-    const captions = [
+    const captions = [  //captions corresponding to each images
        'Background Image',
        'Hardware Image 2',
        'Hardware Image 1'
     ];
 
-    const[index,setIndex] = useState(props.init);
+    const[index,setIndex] = useState(props.init);   //index of image to be displayed
+
+    //mouse clicks modify to change the index being displayed
     const leftClick = () =>{
         setIndex((index+1)%images.length);
     };

@@ -1,14 +1,14 @@
-.left{
+.left{  /* left click button */
     font-size: x-large;
     width: 50px;
     height: 50px;
     background: blue;
     margin: auto;
 }
-.left:hover{
+.left:hover{    /* change color on hover */
     background: grey;
 }
-.right{
+.right{ /* right click button */
     font-size: x-large;
     width: 50px;
     height: 50px;
@@ -16,10 +16,10 @@
     margin: auto;
 }
 
-.right:hover{
+.right:hover{   /* change color on hover */
     background: grey;
 }
-.pic{
+.pic{   /* adjust image size */
     height: 500px;
     width: 700px;
 }
