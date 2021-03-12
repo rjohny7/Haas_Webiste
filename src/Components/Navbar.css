@@ -1,4 +1,5 @@
 .navbar {
+    /* design for the top of the page (color, alignment of items within, etc) */
     background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
     height: 80px;
     /* display: flex; */
@@ -7,7 +8,8 @@
     top: 0;
     z-index: 999;
 }
-  
+
+/* design for the specific container within the navbar, mostly for display rules */
 .navbar-container {
     display: flex;
     justify-content: center;
@@ -15,6 +17,7 @@
     height: 80px;
 }
 
+/* logo positioning and color (top left) */
 .navbar-logo {
     color: #fff;
     text-decoration: none;
@@ -26,6 +29,7 @@
     margin-left: 10px;
 }
 
+/* design rules for the overall menu that contains menu items */
 .nav-menu {
     display: grid;
     grid-template-columns: repeat(5, auto);
@@ -37,10 +41,12 @@
     margin-right: 2rem;
 }
 
+/* specific height for nav items */
 .nav-item {
     height: 79px;
 }
 
+/* styling for the things you actually click on (computing-resources for example) */
 .nav-links {
     color: #fff;
     display: flex;
@@ -50,6 +56,7 @@
     height: 100%;
 }
 
+/* hovering over the links will slightly change it, Quality of life change */
 .nav-links:hover {
     border-bottom: 4px solid #fff;
     transition: all 0.2s ease-out;

@@ -7,21 +7,26 @@ import availabilityTable from './Components/Availability';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+// App which runs the whole site, uses routers that link to components we have built in other files
 function App(){
     return(
         <>
+        {/* Use router to switch pages through the navbar */}
         <Router>
             <Navbar/>
             <Switch>
+               {/* Home Page Route*/}
                <Route path="/" exact component={Home} /> 
             </Switch>
             <Switch>
+               {/* Page 1 Route*/}
                <Route 
                   path="/computing-resources" 
                   exact component={availabilityTable}
                />
             </Switch>
             <Switch>
+               {/* Page 2 Route*/}
                <Route 
                   path="/LOCATION-TWO" 
                   render={(props) => (
@@ -30,6 +35,7 @@ function App(){
                /> 
             </Switch>
             <Switch>
+               {/* Page 3 Route*/}
                <Route path="/LOCATION-THREE" exact /> 
             </Switch>
         </Router>
