@@ -2,10 +2,13 @@ import { CardContent, CardMedia } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import './Home.css';
+
+// Home page code
 function Home() {
     return(
         <>
             <div className = "home">
+                {/* Cards for displaying information and paragraphs. Welcoming message and some sample text as well */}
                 <Card className="layout">
                     <CardContent className="text">
                         <Typography
