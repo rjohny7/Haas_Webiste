@@ -1,5 +1,7 @@
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import check_password_hash, generate_password_hash
 import os
 
 #TODO: add in actual database code
@@ -9,16 +11,39 @@ import os
 #TODO: add checkin function for hardware resources
 
 app = Flask(__name__) # replace this with actual app
+
+#database setup
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///auth.db"
+db = SQLAlchemy(app)
+
+
 api = Api(app)
 parser = reqparse.RequestParser()
-db = getdb()
 
+class User(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    username = db.Column(db.String(20),unique=True,nullable=False)
+    password = db.column(db.String(20),nullable=False)
 
+    def __repr__(self):
+        return f"User('{self.username}')"
+
+class HWSets(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    capacity = db.Column(db.Integer)
+
+class Project(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    name = db.column(db.String(20),nullable=False)
+    description = db.Column(db.Text,nullable=False)
+
+    def __str__(self):
+        return f'{self.id}{self.name}{self.}'
 class HardwareResources(Resource):
     # get function that is called whenever we need to display the current hardware capacity for a hardware set
     def get(self, set_id):
         # get database information for that hardware set
-        entry = db.get(set_id)
+        entry = HWSets.query.get(set_id)
         if entry is not None:
             return entry
         return "Not found", 404
@@ -30,14 +55,18 @@ class HardwareResources(Resource):
         parser.add_argument("amount")
         args = parser.parse_args()
         # get database information for that hardware set
-        entry = db.get(set_id)
+        entry = HWSets.query.get(set_id)
         if entry is not None:
             #set id is in the database, so we allow the checkout
             if args['checkout'] is "T":
-                db.write(set_id, entry['capacity'] - int(args['amount']))
+                #db.write(set_id, entry['capacity'] - int(args['amount']))
+                entry.capacity -= int(args['amount'])
+                db.session.commit()
             #set id is in the database, so we allow the checkin
             else:
-                db.write(set_id, entry['capacity'] + int(args['amount']))
+                #db.write(set_id, entry['capacity'] + int(args['amount']))
+                entry.capacity -= int(args['amount'])
+                db.session.commit()
             return entry, 200
         return "Not found", 404
 
@@ -48,7 +77,7 @@ class Projects(Resource):
         parser.add_argument("project_id")
         args = parser.parse_args()
         # get database information for that project id
-        entry = db.get(args['project_id'])
+        entry = Project.query.get(args["project_id"])
         if entry is not None:
             return entry
         return "Not found", 404
@@ -59,9 +88,12 @@ class Projects(Resource):
         parser.add_argument("description")
         parser.add_argument("project_id")
         args = parser.parse_args()
-        entry = db.get(args['project_id'])
+        entry = Project.query.get(args["project_id"])
         if entry is None:
-            db.create(args['project_id'], args['name'], args['description'])
+            #db.create(args['project_id'], args['name'], args['description'])
+            project = Project(id=args["project_id"],name=args["name"],description=args["description"])
+            db.session.add(project)
+            db.session.commit()
             return db.get(args['project_id']), 200
         return "Project id already exists" #plus some error code if needed
 
@@ -81,20 +113,20 @@ class Datasets(Resource):
 class Login(Resource):
     # get function that is called whenever someone is logging in
     def get(self, username, password):
-        hashed_username = hash_function(username)
-        hashed_password = hash_function(password)
-        entry = db.get(hashed_username)
+        hashed_password = check_password_hash(password)
+        entry = User.query.filter_by(username=username).first()
         if entry is not None and hashed_password is entry['password']:
             return username
         return "Incorrect username or password", 404
 
     # function is called whenever someone is registering
     def post(self, username, password):
-        hashed_username = hash_function(username)
-        hashed_password = hash_function(password)
-        entry = db.get(username)
+        hashed_password = generate_password_hash(password)
+        entry = User.query.filter_by(username=username).first()
         if entry is None:
-            db.create(hashed_username, hashed_password)
+            user = User(username=username,password=hashed_password)
+            db.session.add(user)
+            db.session.commit()
             return username, 200
         return "Username is already taken", #plus some error code if needed
 
