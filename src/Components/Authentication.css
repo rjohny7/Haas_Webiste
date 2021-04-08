@@ -5,3 +5,26 @@
   margin: auto;
   height: 100%;
 }
+
+.input-group {
+  width: 30% !important;
+  margin: auto;
+}
+
+.input-email {
+  margin: auto;
+  text-align: left;
+  width: 30% !important;
+  margin-top: 20px;
+}
+
+.input-password {
+  margin: auto;
+  text-align: left;
+  width: 29.5% !important;
+}
+
+.main-button {
+  margin: auto;
+  text-align: center;
+}
