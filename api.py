@@ -20,25 +20,30 @@ db = SQLAlchemy(app)
 api = Api(app)
 parser = reqparse.RequestParser()
 
+
 class User(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     username = db.Column(db.String(20),unique=True,nullable=False)
-    password = db.column(db.String(20),nullable=False)
+    password = db.Column(db.String(20),nullable=False)
 
     def __repr__(self):
         return f"User('{self.username}')"
+
 
 class HWSets(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     capacity = db.Column(db.Integer)
 
+
 class Project(db.Model):
     id = db.Column(db.Integer,primary_key=True)
-    name = db.column(db.String(20),nullable=False)
+    name = db.Column(db.String(20),nullable=False)
     description = db.Column(db.Text,nullable=False)
 
     def __str__(self):
-        return f'{self.id}{self.name}{self.}'
+        return f'{self.id}{self.name}{self.description}'
+
+
 class HardwareResources(Resource):
     # get function that is called whenever we need to display the current hardware capacity for a hardware set
     def get(self, set_id):
@@ -58,7 +63,7 @@ class HardwareResources(Resource):
         entry = HWSets.query.get(set_id)
         if entry is not None:
             #set id is in the database, so we allow the checkout
-            if args['checkout'] is "T":
+            if args['checkout'] == "T":
                 #db.write(set_id, entry['capacity'] - int(args['amount']))
                 entry.capacity -= int(args['amount'])
                 db.session.commit()
@@ -113,9 +118,9 @@ class Datasets(Resource):
 class Login(Resource):
     # get function that is called whenever someone is logging in
     def get(self, username, password):
-        hashed_password = check_password_hash(password)
+        #hashed_password = check_password_hash(password)
         entry = User.query.filter_by(username=username).first()
-        if entry is not None and hashed_password is entry['password']:
+        if entry is not None and check_password_hash(entry.password, password):
             return username
         return "Incorrect username or password", 404
 
@@ -136,5 +141,6 @@ api.add_resource(Projects, '/Projects/')
 api.add_resource(Datasets, '/Datasets/<dataset_id>')
 api.add_resource(Login, '/Login/<username>/<password>')
 
+app.run()
 
 
