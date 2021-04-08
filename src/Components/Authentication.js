@@ -1,6 +1,7 @@
 import React from "react";
 import "./Authentication.css";
 import { Button, Form, FormGroup, Label, Input, Container } from "reactstrap";
+import axios from 'axios';
 
 import {
   FacebookLoginButton,
@@ -9,6 +10,12 @@ import {
 import { StylesProvider } from "@material-ui/styles";
 
 class Authentication extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      username: null,
+    };
+  }
   render() {
     /*
             The render code was inspired from a youtube tutorial showing how to create a simple yet professional looking login page. All credit to Kris Foster, https://www.youtube.com/watch?v=XHPL-rX9m-Q
@@ -67,8 +74,24 @@ class Authentication extends React.Component {
   /*
     The following handlers must be updated
   */
-  handleLogIn() {
-    alert("Log in");
+ handleLogIn (){
+    //update link to heroku link later
+    const username = axios.get('http://127.0.0.1:5000/Login/'+document.getElementsByClassName('input-email')[0].value+'/'+document.getElementsByClassName('input-password')[0].value).then((username) =>{
+      alert("Made it to then");
+      if(username === 500){
+        alert("Some error occurred");
+      }
+      else if(username === 404){
+        alert("Incorrect username or password");
+      }
+      else{
+        this.setState({
+          username: username,
+        });
+        alert("Logging in as" + username);
+      }
+    })
+    
   }
 
   handleFacebook() {
@@ -80,7 +103,22 @@ class Authentication extends React.Component {
   }
 
   handleSignUp() {
-    alert("Signed Up");
+    //update link to heroku link later
+    const username = axios.post('http://127.0.0.1:5000/Login/'+document.getElementsByClassName('input-email')[0].value+'/'+document.getElementsByClassName('input-password')[0].value).then((username) =>{
+      alert("Made it to then");
+      if(username === 500){
+        alert("Some error occurred");
+      }
+      else if(username === 404){
+        alert("Incorrect username or password");
+      }
+      else{
+        this.setState({
+          username: username,
+        });
+        alert("Logging in as" + username);
+      }
+    })
   }
   //Login functionality will be replaced in the future
 }

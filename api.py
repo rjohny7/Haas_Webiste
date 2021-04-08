@@ -5,7 +5,6 @@ from sqlalchemy import event
 from werkzeug.security import check_password_hash, generate_password_hash
 import os
 
-#TODO: add in actual database code
 #TODO: assign api to actual Flask app
 #TODO: figure out if we store datasets in database and if not, write code for sending zip file
 #TODO: determine how to run this with javascript and if it works without flask having a front end portion
@@ -36,11 +35,13 @@ class HWSets(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     capacity = db.Column(db.Integer)
 
+
 @event.listens_for(HWSets.__table__,'after_create')
 def create_datasets(*args,**kwargLogs):
     db.session.add(HWSets(capacity=20))
     db.session.add(HWSets(capacity=10))
     db.session.commit()
+
 
 class Project(db.Model):
     id = db.Column(db.Integer,primary_key=True)
@@ -91,11 +92,11 @@ class HardwareResources(Resource):
 
 class Projects(Resource):
     # get function that is called whenever we need to use an existing project for a user
-    def get(self):
-        parser.add_argument("project_id")
-        args = parser.parse_args()
+    def get(self, name, description, project_id):
+        #parser.add_argument("project_id")
+        #args = parser.parse_args()
         # get database information for that project id
-        entry = Project.query.get(args["project_id"])
+        entry = Project.query.get(project_id)
         if entry is not None:
             return {
                 'project_id':entry.id,
@@ -105,15 +106,15 @@ class Projects(Resource):
         return "Not found", 404
 
     # post function that is called whenever someone tries to create a new project
-    def post(self):
-        parser.add_argument("name")
-        parser.add_argument("description")
-        parser.add_argument("project_id")
-        args = parser.parse_args()
-        entry = Project.query.get(args["project_id"])
+    def post(self, name, description, project_id):
+        #parser.add_argument("name")
+        #parser.add_argument("description")
+        #parser.add_argument("project_id")
+        #args = parser.parse_args()
+        entry = Project.query.get(project_id)
         if entry is None:
             #db.create(args['project_id'], args['name'], args['description'])
-            project = Project(id=args["project_id"],name=args["name"],description=args["description"])
+            project = Project(id=project_id,name=name,description=description)
             db.session.add(project)
             db.session.commit()
             return {
@@ -121,7 +122,7 @@ class Projects(Resource):
                 'name':project.name,
                 'description':project.description
             }
-        return "Project id already exists" #plus some error code if needed
+        return "Project id already exists", 404 #plus some error code if needed
 
 
 class Datasets(Resource):
@@ -158,7 +159,7 @@ class Login(Resource):
 
 
 api.add_resource(HardwareResources, '/HardwareResources/<set_id>')
-api.add_resource(Projects, '/Projects/')
+api.add_resource(Projects, '/Projects/<name>/<description>/<project_id>')
 api.add_resource(Datasets, '/Datasets/<dataset_id>')
 api.add_resource(Login, '/Login/<username>/<password>')
 
