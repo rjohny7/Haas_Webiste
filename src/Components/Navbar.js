@@ -34,6 +34,12 @@ function Navbar() {
                 Login or Sign Up
               </Link>
             </li>
+            <li className="nav-item">
+                {/* Clicking on this object will take you to Project page*/}
+                <Link to="/projects" className="nav-links">
+                    Create or Manage Projects
+                </Link>
+            </li>
           </ul>
         </div>
       </nav>

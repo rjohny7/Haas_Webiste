@@ -50,6 +50,9 @@ class availabilityTable extends React.Component {
             </td>
           </tr>
         </table>
+        <br/>
+        <button className="checkout">{"Checkout Hardware Resources"}</button><br/><br/>
+        <button className="download">{"Download Datasets"}</button>
       </div>
     );
   }
