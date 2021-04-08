@@ -1,7 +1,11 @@
 import React from "react";
 import "./Availibility.css";
-const locations = ["Austin", "Houston", "Dallas", "Location"];
-const availableKeyWords = ["", "no"];
+import {Form, FormGroup, Label, Input} from "reactstrap";
+//const locations = ["Austin", "Houston", "Dallas", "Location"];
+const sets = ["HWSet 1", "HWSet 2"];
+var availability = [20, 10];
+var capacity = [20, 10];
+//const availableKeyWords = ["", "no"];
 const NO = 0;
 
 class availabilityTable extends React.Component {
@@ -9,50 +13,81 @@ class availabilityTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      maxCapacity: NO, //0 r efers to the keyword
-      region: 3, //refers to index in locations array
+      //maxCapacity: NO, //0 r efers to the keyword
+      //region: 3, //refers to index in locations array
     };
   }
 
-  swapState(i) {
+  swapState(i, isAvailable) {
+    this.
     this.setState({
-      maxCapacity: this.state.maxCapacity, //changes to either "" or "no" in availablekeywords
-      region: i, //swaps the location to locations[i]
+      //maxCapacity: this.state.maxCapacity, //changes to either "" or "no" in availablekeywords
+     // region: i, //swaps the location to locations[i]
     });
   }
   render() {
-    //creates a dropdown and table
-    //dropdown selects the region
-    //table shows whether there are resources available in that region
+    //creates a table
+    //table shows resource availability and allows user to check in/out resources
     return (
       <div>
+        <br/>
+        <p>Checkin or Checkout hardware resources</p><br/>
         <table>
+          <thead>
+            <th>Set</th>
+            <th>Capacity</th>
+            <th>Availability</th>
+            <th>Request</th>
+          </thead>
           <tr>
-            <td>
-              <div class="dropdown">
-                <button class="dropbtn">{locations[this.state.region]}</button>
-                <div class="dropdown-content">
-                  <button onClick={(i = 0) => this.swapState((i = 0))}>
-                    {locations[0]}
-                  </button>
-                  <button onClick={(i = 1) => this.swapState((i = 1))}>
-                    {locations[1]}
-                  </button>
-                  <button onClick={(i = 2) => this.swapState((i = 2))}>
-                    {locations[2]}
-                  </button>
-                </div>
-              </div>
+            <td id="HWSet1">
+              HW Set 1
             </td>
-            <td id="isAvailable">
-              There are {availableKeyWords[this.state.maxCapacity]} available
-              resources in {locations[this.state.region]}!
+            <td id="capacity">
+              {capacity[0]}
+            </td>
+            <td id="available">
+              {availability[0]}
+            </td>
+            <td id="request">
+              <Form>
+                <FormGroup>
+                  <Input type="text" placeholder="Request Capacity" id = 'set1-request'/>
+                </FormGroup>
+              </Form>
+            </td>
+            <td>
+              <button className="btn-lg btn-dark btn-block">Checkout</button>
+            </td>
+            <td>
+              <button className="btn-lg btn-dark btn-block">Checkin</button>
+            </td>
+          </tr>
+          <tr>
+            <td id="HWSet2">
+              HW Set 2
+            </td>
+            <td id="capacity">
+              {capacity[1]}
+            </td>
+            <td id="available">
+              {availability[1]}
+            </td>
+            <td id="request">
+              <Form>
+                <FormGroup>
+                  <Input type="text" placeholder="Request Capacity" id = 'set2-request' />
+                </FormGroup>
+              </Form>
+            </td>
+            <td>
+              <button className="btn-lg btn-dark btn-block">Checkout</button>
+            </td>
+            <td>
+              <button className="btn-lg btn-dark btn-block">Checkin</button>
             </td>
           </tr>
         </table>
-        <br/>
-        <button className="checkout">{"Checkout Hardware Resources"}</button><br/><br/>
-        <button className="download">{"Download Datasets"}</button>
       </div>
     );
   }
