@@ -24,7 +24,13 @@
   width: 29.5% !important;
 }
 
-.main-button {
+.login-button {
   margin: auto;
   text-align: center;
+}
+
+.signup-button {
+  margin: auto;
+  text-align: center;
+  margin-top: 10px;
 }
