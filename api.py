@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import event
 from werkzeug.security import check_password_hash, generate_password_hash
 import os
 
@@ -26,22 +27,28 @@ class User(db.Model):
     username = db.Column(db.String(20),unique=True,nullable=False)
     password = db.Column(db.String(20),nullable=False)
 
-    def __repr__(self):
-        return f"User('{self.username}')"
+    # def __repr__(self):
+    #     return f"User('{self.username}')"
 
 
 class HWSets(db.Model):
+    __tablename__='hardware'
     id = db.Column(db.Integer,primary_key=True)
     capacity = db.Column(db.Integer)
 
+@event.listens_for(HWSets.__table__,'after_create')
+def create_datasets(*args,**kwargLogs):
+    db.session.add(HWSets(capacity=20))
+    db.session.add(HWSets(capacity=10))
+    db.session.commit()
 
 class Project(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(20),nullable=False)
     description = db.Column(db.Text,nullable=False)
 
-    def __str__(self):
-        return f'{self.id}{self.name}{self.description}'
+    # def __repr__(self):
+    #     return f'{self.id}{self.name}{self.description}'
 
 
 class HardwareResources(Resource):
@@ -50,7 +57,10 @@ class HardwareResources(Resource):
         # get database information for that hardware set
         entry = HWSets.query.get(set_id)
         if entry is not None:
-            return entry
+            return{
+                "HWSet": entry.id,
+                "capacity":entry.capacity
+            }
         return "Not found", 404
 
     # function for requesting hardware resources. called when someone sends request for checkout/checkin
@@ -72,7 +82,10 @@ class HardwareResources(Resource):
                 #db.write(set_id, entry['capacity'] + int(args['amount']))
                 entry.capacity -= int(args['amount'])
                 db.session.commit()
-            return entry, 200
+            return{
+                "HWSet": entry.id,
+                "capacity":entry.capacity
+            }
         return "Not found", 404
 
 
@@ -84,7 +97,11 @@ class Projects(Resource):
         # get database information for that project id
         entry = Project.query.get(args["project_id"])
         if entry is not None:
-            return entry
+            return {
+                'project_id':entry.id,
+                'name':entry.name,
+                'description':entry.description
+            }
         return "Not found", 404
 
     # post function that is called whenever someone tries to create a new project
@@ -99,7 +116,11 @@ class Projects(Resource):
             project = Project(id=args["project_id"],name=args["name"],description=args["description"])
             db.session.add(project)
             db.session.commit()
-            return db.get(args['project_id']), 200
+            return {
+                'project_id':project.id,
+                'name':project.name,
+                'description':project.description
+            }
         return "Project id already exists" #plus some error code if needed
 
 
