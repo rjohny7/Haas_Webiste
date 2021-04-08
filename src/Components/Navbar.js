@@ -35,10 +35,16 @@ function Navbar() {
               </Link>
             </li>
             <li className="nav-item">
-                {/* Clicking on this object will take you to Project page*/}
-                <Link to="/projects" className="nav-links">
-                    Create or Manage Projects
-                </Link>
+              {/* Clicking on this object will take you to Project page*/}
+              <Link to="/projects" className="nav-links">
+                Create or Manage Projects
+              </Link>
+            </li>
+            <li className="nav-item">
+              {/* Clicking on this object will take you to Project page*/}
+              <Link to="/download" className="nav-links">
+                Downloads
+              </Link>
             </li>
           </ul>
         </div>

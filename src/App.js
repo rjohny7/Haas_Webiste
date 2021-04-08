@@ -6,6 +6,7 @@ import Carousel from "./Components/Carousel";
 import availabilityTable from "./Components/Availability";
 import Authentication from "./Components/Authentication";
 import Project from "./Components/Project";
+import datasets from "./Components/Datasets";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -42,6 +43,10 @@ function App() {
         <Switch>
           {/* Page 4 Route*/}
           <Route path="/projects" exact component={Project} />
+        </Switch>
+        <Switch>
+          {/* Page 4 Route*/}
+          <Route path="/download" exact component={datasets} />
         </Switch>
       </Router>
     </>
