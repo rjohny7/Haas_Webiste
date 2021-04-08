@@ -5,6 +5,7 @@ import Home from "./Components/Home";
 import Carousel from "./Components/Carousel";
 import availabilityTable from "./Components/Availability";
 import Authentication from "./Components/Authentication";
+import Project from "./Components/Project";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -37,6 +38,10 @@ function App() {
         <Switch>
           {/* Page 3 Route*/}
           <Route path="/login" exact component={Authentication} />
+        </Switch>
+        <Switch>
+          {/* Page 4 Route*/}
+          <Route path="/projects" exact component={Project} />
         </Switch>
       </Router>
     </>
