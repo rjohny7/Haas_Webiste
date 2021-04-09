@@ -26,7 +26,7 @@ class Navbar extends React.Component {
     } else {
       lastTab = (
         <Link id="signed-in" to="/user" className="nav-links">
-          {"Welcome, " + this.state.username}
+          {"Welcome, " + this.props.userName}
         </Link>
       );
     }

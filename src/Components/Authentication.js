@@ -13,7 +13,8 @@ class Authentication extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      username: null,
+      loggedIn: this.props.loggedIn,
+      username: this.props.userName,
     };
   }
   // componentDidMount() {
@@ -31,6 +32,14 @@ class Authentication extends React.Component {
   //   }).then(data => console.log(data))
   // }
   render() {
+    if (this.state.loggedIn) {
+      return(
+        <div>
+          <p>You are currently signed in as {this.state.username}</p><br/>
+          <button id="sign-out" className="btn-lg btn-dark btn-block" onClick={() => this.handleLogOut()}>Sign Out</button>
+        </div>
+      );
+    }
     /*
             The render code was inspired from a youtube tutorial showing how to create a simple yet professional looking login page. All credit to Kris Foster, https://www.youtube.com/watch?v=XHPL-rX9m-Q
             Some minor tweaks include adding the google login button and instead of writing it in the main App.js file, it is written as a component and will be called when the user clicks on the sign in link. More differences have been added to fit the aesthetic of our website
@@ -88,11 +97,17 @@ class Authentication extends React.Component {
   /*
     The following handlers must be updated
   */
+ handleLogOut(){
+    this.props.setLoggedIn(false);
+    this.props.setUser("");
+    this.setState({loggedIn: false, userName: ""});
+ }
+
  handleLogIn (){
     //update link to heroku link later
     //e.preventDefault();
 
-    this.props.setLoggedIn(true);
+    //<Route path="/user"></Route>
     fetch('/Login/'+document.getElementsByClassName('input-email')[0].value+'/'+document.getElementsByClassName('input-password')[0].value, {method:"GET"}).then(response=>{
       if(response.ok){
         return response.json()
@@ -107,10 +122,13 @@ class Authentication extends React.Component {
       }
       else{
         this.setState({
+          loggedIn: true,
           username: data,
         })
         console.log("Signing in as " + data);
         alert("Signing in as " + data);
+        this.props.setLoggedIn(true);
+        this.props.setUser(document.getElementsByClassName('input-email')[0].value);
       }
     })
   }

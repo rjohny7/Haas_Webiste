@@ -3,6 +3,8 @@ import "./Availibility.css";
 import {Form, FormGroup, Label, Input} from "reactstrap";
 //const locations = ["Austin", "Houston", "Dallas", "Location"];
 const sets = ["HWSet 1", "HWSet 2"];
+var availability = [20, 10];
+var capacity = [20, 10];
 //const availableKeyWords = ["", "no"];
 const NO = 0;
 
@@ -11,8 +13,8 @@ class availabilityTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      availability: [20,10],
-      capacity: [20,10],
+      //maxCapacity: NO, //0 r efers to the keyword
+      //region: 3, //refers to index in locations array
     };
   }
 
@@ -42,12 +44,12 @@ class availabilityTable extends React.Component {
               HW Set 1
             </td>
             <td id="capacity">
-              {this.state.capacity[0]}
+              {capacity[0]}
             </td>
             <td id="available">
-              {this.state.availability[0]}
+              {availability[0]}
             </td>
-            <td id="request-1">
+            <td id="request">
               <Form>
                 <FormGroup>
                   <Input type="text" placeholder="Request Capacity" id = 'set1-request'/>
@@ -55,10 +57,10 @@ class availabilityTable extends React.Component {
               </Form>
             </td>
             <td>
-              <button onClick={() => this.handleCheckout('1', document.getElementById("set1-request").value)}>Checkout</button>
+              <button className="btn-lg btn-dark btn-block">Checkout</button>
             </td>
             <td>
-              <button onClick={() => this.handleCheckin('1', document.getElementById("set1-request").value)}>Checkin</button>
+              <button className="btn-lg btn-dark btn-block">Checkin</button>
             </td>
           </tr>
           <tr>
@@ -66,12 +68,12 @@ class availabilityTable extends React.Component {
               HW Set 2
             </td>
             <td id="capacity">
-              {this.state.capacity[1]}
+              {capacity[1]}
             </td>
             <td id="available">
-              {this.state.availability[1]}
+              {availability[1]}
             </td>
-            <td id="request-2">
+            <td id="request">
               <Form>
                 <FormGroup>
                   <Input type="text" placeholder="Request Capacity" id = 'set2-request' />
@@ -79,10 +81,10 @@ class availabilityTable extends React.Component {
               </Form>
             </td>
             <td>
-              <button onClick={() => this.handleCheckout('2', document.getElementById("set2-request").value)}>Checkout</button>
+              <button className="btn-lg btn-dark btn-block">Checkout</button>
             </td>
             <td>
-              <button onClick={() => this.handleCheckin('2', document.getElementById("set2-request").value)}>Checkin</button>
+              <button className="btn-lg btn-dark btn-block">Checkin</button>
             </td>
           </tr>
         </table>
@@ -90,83 +92,28 @@ class availabilityTable extends React.Component {
     );
   }
 
-  handleCheckout(set_id, input_value){
-    fetch('/HardwareResources/'+set_id+'/T/'+input_value, {method:"POST"}).then(response => {
-        if(response.ok){
-          return response.json()
-        }
-    }).then(data => {
-      if(data == null){
-        alert("Some error occurred");
-      }
-      else if(data == "Requested amount exceeds available hardware"){
-        alert(data);
-      }
-      else{
-        const avail = this.state.availability.slice(0, this.state.availability.length);
-        const capac = this.state.capacity.slice(0, this.state.capacity.length);
-        //temporarily capacity and availability are the same thing
-        avail[parseInt(set_id)-1] = data['capacity'];
-        capac[parseInt(set_id)-1] = data['capacity'];
-        this.setState({
-          availability: avail,
-          capacity: capac,
-        })
-      }
-    })
+  /*
+  *********************IMPORTANT***************************
+  // Turn auto update stuff into something else later
+  // Won't make too much sense after we hook things up to the backend
+  *********************************************************
+  */
+  componentDidMount() {
+    //this method is run whenever the component is made, updates the table every 1.5 seconds
+    this.timerID = setInterval(() => this.updateTable(), 1500);
   }
 
-  handleCheckin(set_id, input_value){
-    fetch('/HardwareResources/'+set_id+'/F/'+input_value, {method:"POST"}).then(response => {
-      if(response.ok){
-        return response.json()
-      }
-    }).then(data => {
-      if(data == null){
-        alert("Some error occurred");
-      }
-      else if(data == "Requested amount exceeds available hardware"){
-        alert(data);
-      }
-      else{
-        const avail = this.state.availability.slice(0, this.state.availability.length);
-        const capac = this.state.capacity.slice(0, this.state.capacity.length);
-        //temporarily capacity and availability are the same thing
-        avail[parseInt(set_id)-1] = data['capacity'];
-        capac[parseInt(set_id)-1] = data['capacity'];
-        this.setState({
-          availability: avail,
-          capacity: capac,
-        })
-      }
-    })
+  componentWillUnmount() {
+    //clears the timer when component is deleted
+    clearInterval(this.timerID);
   }
-  
-  componentWillMount(){
-    //dummy variables a b c since get does not use them
-    fetch('/HardwareResources/a/b/c', {method:"GET"}).then(response=>{
-      if(response.ok){
-        return response.json()
-      }
-    }).then(data => {
-      if(data == null){
-        alert("Some error occurred");
-      }
-      else{
-        const avail = [data[0]['amount'], data[1]['amount']];
-        const capac = [data[0]['capacity'], data[1]['capacity']];
-        this.setState({
-          availability: avail,
-          capacity: capac,
-        })
-      }
-    })
-  }
+
   /*
 ****************************IMPORTANT*****************************
 this method must be updated later once the backend is implemented. Right now it randomly decides if a location has resources or not. Thus, once the backend can communicate, it can notify this method whether the selected location has hardware resources available or not
 ******************************************************************
   */
+ 
   updateTable() {
     //randomly decides if the location has resources
     let isFull = 0;
