@@ -48,7 +48,7 @@ function App(props) {
         <Switch>
           {/* Page 3 Route*/}
           <Route path="/login"
-          render={(props)=> <Authentication {...props} setLoggedIn={function setLoggedIn(_loggedIn){changeState(_loggedIn);}} setUser={function setUser(_userName){changeUser(_userName)}}/>}  
+          render={(props)=> <Authentication {...props} loggedIn={loggedIn[0]} userName={userName[0]} setLoggedIn={function setLoggedIn(_loggedIn){changeState(_loggedIn);}} setUser={function setUser(_userName){changeUser(_userName)}}/>}  
           />
         </Switch>
         <Switch>
@@ -58,6 +58,12 @@ function App(props) {
         <Switch>
           {/* Page 4 Route*/}
           <Route path="/download" exact component={datasets} />
+        </Switch>
+        <Switch>
+          {/* Page 4 Route*/}
+          <Route path="/user"
+          render={(props)=> <Authentication {...props} loggedIn={loggedIn[0]} userName={userName[0]} setLoggedIn={function setLoggedIn(_loggedIn){changeState(_loggedIn);}} setUser={function setUser(_userName){changeUser(_userName)}}/>}
+          />
         </Switch>
       </Router>
     </>
