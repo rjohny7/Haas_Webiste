@@ -91,6 +91,8 @@ class Authentication extends React.Component {
  handleLogIn (){
     //update link to heroku link later
     //e.preventDefault();
+
+    this.props.setLoggedIn(true);
     fetch('/Login/'+document.getElementsByClassName('input-email')[0].value+'/'+document.getElementsByClassName('input-password')[0].value, {method:"GET"}).then(response=>{
       if(response.ok){
         return response.json()

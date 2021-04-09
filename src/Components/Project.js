@@ -7,13 +7,14 @@ class Project extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            name: null, //project name
-            description: null, //project description
-            project_id: null, //project id 
+            name: "(NO PROJECT YET)", //project name
+            description: ("NO DESCRIPTION YET"), //project description
+            project_id: "(NO PROJECT ID YET)", //project id 
         }
     }
     render() {
         return(
+
             <Form className="Create">
                 <FormGroup>
                     <Label>Project Name</Label>
@@ -36,7 +37,12 @@ class Project extends React.Component {
                     <Input type="text" placeholder="Enter ID" className = 'project-id-view'/>
                 </FormGroup>
                 <button type = "button" onClick={() => this.handleView()}>View Project</button>
+                <hr></hr>
+                <header>You are currently viewing project {this.state.name} with project id {this.state.project_id}</header>
+                <header><b>Description:</b></header>
+                <p>{this.state.description}</p>
             </Form>
+            
         );
     }
 
@@ -72,7 +78,6 @@ class Project extends React.Component {
                 return response.json()
             }
             }).then(data => {
-                alert(data);
             if(data == null){
                 alert("Some error occurred");
                 console.log("Some error occurred");
