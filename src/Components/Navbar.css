@@ -1,80 +1,85 @@
 .navbar {
-    /* design for the top of the page (color, alignment of items within, etc) */
-    background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
-    height: 80px;
-    /* display: flex; */
-    align-items: center;
-    font-size: 1.2rem;
-    top: 0;
-    z-index: 999;
+  /* design for the top of the page (color, alignment of items within, etc) */
+  background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
+  height: 80px;
+  /* display: flex; */
+  align-items: center;
+  font-size: 1.2rem;
+  top: 0;
+  z-index: 999;
 }
 
 /* design for the specific container within the navbar, mostly for display rules */
 .navbar-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  width: auto;
 }
 
 /* logo positioning and color (top left) */
 .navbar-logo {
-    color: #fff;
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 2rem;
-    justify-self: start;
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 2rem;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
 }
 
 /* design rules for the overall menu that contains menu items */
 .nav-menu {
-    display: grid;
-    grid-template-columns: repeat(5, auto);
-    grid-gap: 10px;
-    list-style: none;
-    text-align: center;
-    width: 100%;
-    justify-content: end;
-    margin-right: 2rem;
+  display: grid;
+  grid-template-columns: repeat(6, auto);
+  grid-gap: 10px;
+  list-style: none;
+  text-align: center;
+  width: 100%;
+  justify-content: end;
 }
 
 /* specific height for nav items */
 .nav-item {
-    height: 79px;
+  height: 79px;
+  width: auto;
 }
 
 /* styling for the things you actually click on (computing-resources for example) */
 .nav-links {
-    color: #fff;
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    height: 100%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  height: 100%;
 }
 
 /* hovering over the links will slightly change it, Quality of life change */
 .nav-links:hover {
-    border-bottom: 4px solid #fff;
-    transition: all 0.2s ease-out;
+  border-bottom: 4px solid #fff;
+  transition: all 0.2s ease-out;
+}
+
+#signed-in {
+  text-align: right;
 }
 
 .fa-bars {
-    color: #fff;
+  color: #fff;
 }
 
 .nav-links-mobile {
-    display: none;
+  display: none;
 }
 
 .menu-icon {
-    display: none;
+  display: none;
 }
 
 .caption {
-    color:blue;
-    margin-left: 340px;
+  color: blue;
+  margin-left: 340px;
 }
