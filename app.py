@@ -7,7 +7,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 import os
 
 
-app = Flask(__name__,static_folder='./build',static_url_path='/') 
+app = Flask(__name__,static_folder='/build',static_url_path='/') 
 CORS(app)
 #database setup
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///auth.db"
