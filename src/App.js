@@ -9,14 +9,18 @@ import Project from "./Components/Project";
 import datasets from "./Components/Datasets";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+var loggedIn = false;
 
+function setLoggedIn(_loggedIn){
+   loggedIn = _loggedIn;
+}
 // App which runs the whole site, uses routers that link to components we have built in other files
 function App() {
   return (
     <>
       {/* Use router to switch pages through the navbar */}
       <Router>
-        <Navbar />
+        <Navbar loggedIn={loggedIn}/>
         <Switch>
           {/* Home Page Route*/}
           <Route path="/" exact component={Home} />
@@ -38,7 +42,9 @@ function App() {
         </Switch>
         <Switch>
           {/* Page 3 Route*/}
-          <Route path="/login" exact component={Authentication} />
+          <Route path="/login"
+          render={(props)=> <Authentication {...props} setLoggedIn={setLoggedIn}/>}  
+          />
         </Switch>
         <Switch>
           {/* Page 4 Route*/}
@@ -51,6 +57,8 @@ function App() {
       </Router>
     </>
   );
+
+  
 }
 
 export default App;

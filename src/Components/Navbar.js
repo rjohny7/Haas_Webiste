@@ -11,13 +11,13 @@ class Navbar extends React.Component {
     this.state = {
       click: false,
       username: "",
-      loggedIn: false,
+      loggedIn: this.props.loggedIn,
     };
   }
-
+  
   render() {
     let lastTab;
-    if (!this.state.loggedIn) {
+    if (!this.props.loggedIn) {
       lastTab = (
         <Link to="/login" className="nav-links">
           Login or Sign Up
