@@ -17,25 +17,25 @@ class Project extends React.Component {
             <Form className="Create">
                 <FormGroup>
                     <Label>Project Name</Label>
-                    <Input type="text" placeholder="Enter Name" id = 'project-name'/>
+                    <Input type="text" placeholder="Enter Name" className = 'project-name'/>
                 </FormGroup>
                 <FormGroup>
                     <Label>Project Description</Label>
-                    <Input type="text" placeholder="Enter Description" id = 'project-description'/>
+                    <Input type="text" placeholder="Enter Description" className = 'project-description'/>
                 </FormGroup>
                 <FormGroup>
                     <Label>Project ID</Label>
-                    <Input type="text" placeholder="Enter ID" id = 'project-id-create'/>
+                    <Input type="text" placeholder="Enter ID" className = 'project-id-create'/>
                 </FormGroup>
-                <button className="btn-lg btn-dark btn-block" onClick={() => this.handleCreate()}>Create Project</button>
+                <button onClick={() => this.handleCreate()}>Create Project</button>
                 <div className="text-center pt-3">
                     Or manage an existing project
                 </div>
                 <FormGroup>
                     <Label>Project ID</Label>
-                    <Input type="text" placeholder="Enter ID" id = 'project-id-view'/>
+                    <Input type="text" placeholder="Enter ID" className = 'project-id-view'/>
                 </FormGroup>
-                <Button className="btn-lg btn-dark btn-block" onClick={() => this.handleView()}>View Project</Button>
+                <button onClick={() => this.handleView()}>View Project</button>
             </Form>
         );
     }
@@ -44,48 +44,54 @@ class Project extends React.Component {
 
     handleCreate() {
         //update link to heroku link later
-        alert('http://127.0.0.1:5000/Projects/'+document.getElementById('project-name').value+'/'+document.getElementById('project-description').value+'/'+document.getElementById('project-id-create').value);
-        const response = axios.post('http://127.0.0.1:5000/Projects/'+document.getElementById('project-name').value+'/'+document.getElementById('project-description').value+'/'+document.getElementById('project-id-create').value).then((response) =>{
-            alert("Made it to then");
-            if(response == 500){
-            alert("Some error occurred");
+        fetch('/Projects/'+document.getElementsByClassName('project-name')[0].value+'/'+document.getElementsByClassName('project-description')[0].value+'/'+document.getElementsByClassName('project-id-create')[0].value, {method:"POST"}).then(response=>{
+            if(response.ok){
+              return response.json()
             }
-            else if(response == 404){
-            alert("Project id already exists");
+          }).then(data => {
+            if(data == null){
+                alert("Some error occurred");
+            }
+            else if(data == "Project id already exists"){
+                alert(data);
             }
             else{
-            this.state = {
-                name: document.getElementById('project-name'),
-                description: document.getElementById('project-description'),
-                project_id: document.getElementById('project-id-create'),
-            };
-            alert("Successfully created project " + document.getElementById('project-name'));
+              this.setState({
+                    name: data['name'],
+                    description: data['description'],
+                    project_id: data['project_id'],
+              })
+              alert("Creating and viewing project " + this.state.name);
             }
-      })
+        })
    } 
 
     handleView(){
-        //update link to heroku link later
-        alert('http://127.0.0.1:5000/Projects/a/b/'+document.getElementById('project-id-view').value);
-        const response = axios.get('http://127.0.0.1:5000/Projects/a/b/'+document.getElementById('project-id-view').value).then((response) =>{
-            alert("Made it to then");
-            if(response == 500){
-            alert("Some error occurred");
+        fetch('/Projects/a/b/'+document.getElementsByClassName('project-id-view')[0].value, {method:"GET"}).then(response=>{
+            if(response.ok){
+                return response.json()
             }
-            else if(response == 404){
-            alert("Project id does not exist");
+            }).then(data => {
+                alert(data);
+            if(data == null){
+                alert("Some error occurred");
+                console.log("Some error occurred");
+            }
+            else if(data == "Not found"){
+                alert("Project not found");
+                console.log("Project not found");
             }
             else{
-            this.state = {
-                //unpack values from response here, right now is temporary
-                name: document.getElementById('project-name'),
-                description: document.getElementById('project-description'),
-                project_id: document.getElementById('project-id-create'),
-            };
-            alert("Successfully viewing project " + document.getElementById('project-name'));
+                this.setState({
+                    name: data['name'],
+                    description: data['description'],
+                    project_id: data['project_id'],
+                })
+                alert("Viewing project " + this.state.name);
+                console.log("Viewing project " + this.state.name);
             }
-      })
-   }
+        })
+   }    
 }
 
 export default Project

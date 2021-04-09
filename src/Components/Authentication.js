@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./Authentication.css";
-import { Button, Form, FormGroup, Label, Input, Container } from "reactstrap";
+import { Form, FormGroup, Label, Input, Container } from "reactstrap";
 import axios from 'axios';
 
 
@@ -53,7 +53,6 @@ class Authentication extends React.Component {
         <Container>
           <Container className="login-button">
             <button
-              className="btn-lg btn-dark"
               onClick={() => this.handleLogIn()}
             >
               Log in
@@ -61,7 +60,6 @@ class Authentication extends React.Component {
           </Container>
           <Container className="signup-button">
             <button
-              className="btn-lg btn-dark"
               onClick={() => this.handleSignUp()}
             >
               Sign Up
@@ -91,13 +89,25 @@ class Authentication extends React.Component {
   */
  handleLogIn (){
     //update link to heroku link later
-    alert("Here")
-    fetch('/Login/test@gmail.com/test').then(response=>{
+    
+    fetch('/Login/'+document.getElementsByClassName('input-email')[0].value+'/'+document.getElementsByClassName('input-password')[0].value, {method:"GET"}).then(response=>{
       if(response.ok){
         return response.json()
       }
-    }).then(window.location.assign("http://localhost:3000/computing-resources"))
-    
+    }).then(data => {
+      if(data == null){
+        alert("Some error occurred");
+      }
+      else if(data == "Incorrect username or password"){
+        alert(data);
+      }
+      else{
+        this.setState({
+          username: data,
+        })
+        alert("Signing in as " + data);
+      }
+    })
   }
 
   handleFacebook() {
@@ -110,19 +120,22 @@ class Authentication extends React.Component {
 
   handleSignUp() {
     //update link to heroku link later
-    const username = axios.post('http://127.0.0.1:5000/Login/'+document.getElementsByClassName('input-email')[0].value+'/'+document.getElementsByClassName('input-password')[0].value).then((username) =>{
-      alert("Made it to then");
-      if(username === 500){
+    fetch('/Login/'+document.getElementsByClassName('input-email')[0].value+'/'+document.getElementsByClassName('input-password')[0].value, {method:"POST"}).then(response=>{
+      if(response.ok){
+        return response.json()
+      }
+    }).then(data => {
+      if(data == null){
         alert("Some error occurred");
       }
-      else if(username === 404){
-        alert("Incorrect username or password");
+      else if(data == "Username is already taken"){
+        alert(data);
       }
       else{
         this.setState({
-          username: username,
-        });
-        alert("Logging in as" + username);
+          username: data,
+        })
+        alert("Signing in after registering as " + data);
       }
     })
   }

@@ -97,7 +97,7 @@ class Projects(Resource):
                 'name':entry.name,
                 'description':entry.description
             }
-        return "Not found", 404
+        return "Not found"
 
     # post function that is called whenever someone tries to create a new project
     def post(self, name, description, project_id):
@@ -116,7 +116,7 @@ class Projects(Resource):
                 'name':project.name,
                 'description':project.description
             }
-        return "Project id already exists", 404 #plus some error code if needed
+        return "Project id already exists"
 
 
 class Datasets(Resource):
@@ -138,7 +138,7 @@ class Login(Resource):
         entry = User.query.filter_by(username=username).first()
         if entry is not None and check_password_hash(entry.password, password):
             return username
-        return "Incorrect username or password", 404
+        return "Incorrect username or password"
 
     # function is called whenever someone is registering
     def post(self, username, password):
@@ -149,7 +149,7 @@ class Login(Resource):
             db.session.add(user)
             db.session.commit()
             return username, 200
-        return "Username is already taken", #plus some error code if needed
+        return "Username is already taken"
 
 
 
@@ -163,6 +163,7 @@ class Login(Resource):
 #             "username":username
 #         }
 #     return "Incorrect username or password", 404
+
 
 api.add_resource(HardwareResources, '/HardwareResources/<set_id>')
 api.add_resource(Projects, '/Projects/<name>/<description>/<project_id>')
