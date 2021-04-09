@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import "./Authentication.css";
-import { Form, FormGroup, Label, Input, Container } from "reactstrap";
-import axios from "axios";
-import Navbar from "./Navbar";
+import { Form, FormGroup, Label, Input, Container, Navbar } from "reactstrap";
+import axios from 'axios';
+
 import {
   FacebookLoginButton,
   GoogleLoginButton,
@@ -10,12 +10,26 @@ import {
 import { StylesProvider } from "@material-ui/styles";
 
 class Authentication extends React.Component {
-  constructor(props) {
+  constructor(props){
     super(props);
     this.state = {
       username: null,
     };
   }
+  // componentDidMount() {
+  //   fetch('/Login/test@gmail.com/test').then(response=>{
+  //     if(response.ok){
+  //       return response.json()
+  //     }
+  //   }).then(data => console.log(data))
+  // }
+  // componentDidUpdate() {
+  //   fetch('/api').then(response=>{
+  //     if(response.ok){
+  //       return response.json()
+  //     }
+  //   }).then(data => console.log(data))
+  // }
   render() {
     /*
             The render code was inspired from a youtube tutorial showing how to create a simple yet professional looking login page. All credit to Kris Foster, https://www.youtube.com/watch?v=XHPL-rX9m-Q
@@ -37,10 +51,19 @@ class Authentication extends React.Component {
 
         <Container>
           <Container className="login-button">
-            <button onClick={() => this.handleLogIn()}>Log in</button>
+            <button type="button"
+              onClick={() => this.handleLogIn()}
+              
+            >
+              Log in
+            </button>
           </Container>
           <Container className="signup-button">
-            <button onClick={() => this.handleSignUp()}>Sign Up</button>
+            <button
+              onClick={() => this.handleSignUp()}
+            >
+              Sign Up
+            </button>
           </Container>
         </Container>
         <div className="text-center pt-3">
@@ -64,35 +87,29 @@ class Authentication extends React.Component {
   /*
     The following handlers must be updated
   */
-  handleLogIn() {
+ handleLogIn (){
     //update link to heroku link later
-    fetch(
-      "/Login/" +
-        document.getElementsByClassName("input-email")[0].value +
-        "/" +
-        document.getElementsByClassName("input-password")[0].value,
-      { method: "GET" }
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-      })
-      .then((data) => {
-        if (data == null) {
-          alert("Some error occurred");
-        } else if (data == "Incorrect username or password") {
-          alert(data);
-        } else {
-          this.setState({
-            username: data,
-          });
-          alert("Signing in as " + data);
-        }
-      });
-
-    Navbar.setLogIn();
-    Navbar.setUsername(this.state.username);
+    //e.preventDefault();
+    fetch('/Login/'+document.getElementsByClassName('input-email')[0].value+'/'+document.getElementsByClassName('input-password')[0].value, {method:"GET"}).then(response=>{
+      if(response.ok){
+        return response.json()
+      }
+    }).then(data => {
+      console.log(data);
+      if(data == null){
+        alert("Some error occurred");
+      }
+      else if(data == "Incorrect username or password"){
+        alert(data);
+      }
+      else{
+        this.setState({
+          username: data,
+        })
+        console.log("Signing in as " + data);
+        alert("Signing in as " + data);
+      }
+    })
   }
 
   handleFacebook() {
@@ -105,30 +122,25 @@ class Authentication extends React.Component {
 
   handleSignUp() {
     //update link to heroku link later
-    fetch(
-      "/Login/" +
-        document.getElementsByClassName("input-email")[0].value +
-        "/" +
-        document.getElementsByClassName("input-password")[0].value,
-      { method: "POST" }
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-      })
-      .then((data) => {
-        if (data == null) {
-          alert("Some error occurred");
-        } else if (data == "Username is already taken") {
-          alert(data);
-        } else {
-          this.setState({
-            username: data,
-          });
-          alert("Signing in after registering as " + data);
-        }
-      });
+    //e.preventDefault();
+    fetch('/Login/'+document.getElementsByClassName('input-email')[0].value+'/'+document.getElementsByClassName('input-password')[0].value, {method:"POST"}).then(response=>{
+      if(response.ok){
+        return response.json()
+      }
+    }).then(data => {
+      if(data == null){
+        alert("Some error occurred");
+      }
+      else if(data == "Username is already taken"){
+        alert(data);
+      }
+      else{
+        this.setState({
+          username: data,
+        })
+        alert("Signing in after registering as " + data);
+      }
+    })
   }
   //Login functionality will be replaced in the future
 }
