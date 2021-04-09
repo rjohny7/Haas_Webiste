@@ -2,7 +2,7 @@ import React from "react";
 import "./Datasets.css";
 import * as reactstrap from "react-bootstrap";
 import { Button } from "reactstrap";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 //data is the object that will hold the data for each dataset that a user can download. Name is the name of dataset, description the description and download is the download link that will run when you click on the download button
 class data {
   constructor(name, description, download) {
@@ -35,7 +35,7 @@ class datasets extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataArray: [],
+      dataArray: [], //this dataArray will hold all the info needed for a row in the table. Name, description, and download link will be encompassed in the data class
     };
     this.constructArray();
   }
@@ -67,13 +67,7 @@ class datasets extends React.Component {
     return (
       <tr key={index}>
         <td>
-          <Link
-            to={buttonDownload}
-            className="btn btn-lg btn-dark btn-block"
-            onClick={() => this.downloadFile(buttonDownload)}
-          >
-            {buttonLabel}
-          </Link>
+          <a href={buttonDownload}>{buttonLabel}</a>
         </td>
         <td>
           <p>{description}</p>
@@ -83,33 +77,59 @@ class datasets extends React.Component {
   };
 
   //***API GOES HERE MUST REPLACE THIS WITH API******************************
+
+  /*
+    This works for now but we must do the api at some point
+  */
   constructArray = () => {
-    const first = new data("test1", "description1", "https://www.utexas.edu");
+    const first = new data(
+      "Abdominal and Direct Fetal ECG Database",
+      " Multichannel fetal electrocardiogram recordings obtained from 5 different women in labor, between 38 and 41 weeks of gestation.",
+      "https://physionet.org/static/published-projects/adfecgdb/abdominal-and-direct-fetal-ecg-database-1.0.0.zip"
+    );
     const second = new data(
-      "test2",
-      "This is a longer description intended to test",
-      "https://www.google.com"
+      "A Pressure Map Dataset for In-bed Posture Classification",
+      " Pressure sensor data captured from 13 participants in various sleeping postures. ",
+      "https://physionet.org/static/published-projects/pmd/a-pressure-map-dataset-for-in-bed-posture-classification-1.0.0.zip"
     );
     const third = new data(
-      "This is a longer name",
-      "Does it work?",
-      "https://www.ece.utexas.edu/academics/undergraduate/curriculum"
+      "CAP Sleep Database",
+      "The CAP Sleep Database is a collection of 108 polysomnographic recordings registered at the Sleep Disorders Center of the Ospedale Maggiore of Parma, Italy",
+      "https://physionet.org/static/published-projects/capslpdb/cap-sleep-database-1.0.0.zip"
+    );
+    const fourth = new data(
+      "Noise Enhancement of Sensorimotor",
+      " Postural sway measurements for 27 healthy young and elderly volunteers.",
+      "https://physionet.org/static/published-projects/nesfdb/noise-enhancement-of-sensorimotor-function-1.0.0.zip"
     );
 
+    const fifth = new data(
+      "Sleep Bioradiolocation Database",
+      "The database contains 32 records of non-contact sleep monitoring by a bioradar.",
+      "https://physionet.org/static/published-projects/sleepbrl/sleep-bioradiolocation-database-1.0.0.zip"
+    );
+
+    const sixth = new data(
+      "Wrist PPG During Exercise",
+      "Photoplethysmogram recorded from 8 volunteers during walking, running and bike riding.",
+      "https://physionet.org/static/published-projects/wrist/wrist-ppg-during-exercise-1.0.0.zip"
+    );
     this.updateTable(first);
     this.updateTable(second);
     this.updateTable(third);
-    this.updateTable(third);
-    this.updateTable(second);
-    this.updateTable(first);
+    this.updateTable(fourth);
+    this.updateTable(fifth);
+    this.updateTable(sixth);
   };
 
+  //This adds a row to the table. Previous rows to the table are not changed.
   updateTable(data) {
     this.setState({
       dataArray: this.state.dataArray.push(data),
     });
   }
 
+  //this method will be implemented when the api is. Download's directly as opposed to going to the physionet page
   downloadFile(link) {}
 }
 
