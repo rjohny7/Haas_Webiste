@@ -1,4 +1,5 @@
 from flask import Flask,jsonify,request
+from flask_cors import CORS
 from flask_restful import Resource, Api, reqparse
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import event
@@ -7,7 +8,7 @@ import os
 
 
 app = Flask(__name__,static_folder='./build',static_url_path='/') 
-
+CORS(app)
 #database setup
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///auth.db"
 db = SQLAlchemy(app)
@@ -17,6 +18,7 @@ api = Api(app)
 
 @app.route('/')
 def index():    #load page from react
+    return 'Hello World'
     return app.send_static_file('index.html')
 class User(db.Model):
     id = db.Column(db.Integer,primary_key=True)
@@ -138,6 +140,7 @@ class Datasets(Resource):
 class Login(Resource):
     # get function that is called whenever someone is logging in
     def get(self, username, password):
+        print("I'm here")
         #hashed_password = check_password_hash(password)
         entry = User.query.filter_by(username=username).first()
         if entry is not None and check_password_hash(entry.password, password):
@@ -175,4 +178,4 @@ api.add_resource(Datasets, '/Datasets/<dataset_id>')
 api.add_resource(Login, '/Login/<username>/<password>')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',debug=False,port=os.environ.get('PORT',80))
+    app.run(debug=False)
