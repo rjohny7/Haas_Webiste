@@ -18,12 +18,14 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // App which runs the whole site, uses routers that link to components we have built in other files
 function App(props) {
    const loggedIn = useState(false);
+   const userName = useState("");
+   const changeUser = userName[1];
    const changeState = loggedIn[1];
   return (
     <>
       {/* Use router to switch pages through the navbar */}
       <Router>
-        <Navbar loggedIn={loggedIn[0]}/>
+        <Navbar loggedIn={loggedIn[0]} userName={userName[0]}/>
         <Switch>
           {/* Home Page Route*/}
           <Route path="/" exact component={Home} />
@@ -46,7 +48,7 @@ function App(props) {
         <Switch>
           {/* Page 3 Route*/}
           <Route path="/login"
-          render={(props)=> <Authentication {...props} setLoggedIn={function setLoggedIn(_loggedIn){changeState(_loggedIn);}}/>}  
+          render={(props)=> <Authentication {...props} setLoggedIn={function setLoggedIn(_loggedIn){changeState(_loggedIn);}} setUser={function setUser(_userName){changeUser(_userName)}}/>}  
           />
         </Switch>
         <Switch>

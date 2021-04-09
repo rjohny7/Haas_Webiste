@@ -93,6 +93,7 @@ class Authentication extends React.Component {
     //e.preventDefault();
 
     this.props.setLoggedIn(true);
+    this.props.setUser(document.getElementsByClassName('input-email')[0].value);
     fetch('/Login/'+document.getElementsByClassName('input-email')[0].value+'/'+document.getElementsByClassName('input-password')[0].value, {method:"GET"}).then(response=>{
       if(response.ok){
         return response.json()
