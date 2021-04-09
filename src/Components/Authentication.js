@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Authentication.css";
 import { Button, Form, FormGroup, Label, Input, Container } from "reactstrap";
 import axios from 'axios';
+
 
 import {
   FacebookLoginButton,
@@ -16,6 +17,20 @@ class Authentication extends React.Component {
       username: null,
     };
   }
+  // componentDidMount() {
+  //   fetch('/Login/test@gmail.com/test').then(response=>{
+  //     if(response.ok){
+  //       return response.json()
+  //     }
+  //   }).then(data => console.log(data))
+  // }
+  // componentDidUpdate() {
+  //   fetch('/api').then(response=>{
+  //     if(response.ok){
+  //       return response.json()
+  //     }
+  //   }).then(data => console.log(data))
+  // }
   render() {
     /*
             The render code was inspired from a youtube tutorial showing how to create a simple yet professional looking login page. All credit to Kris Foster, https://www.youtube.com/watch?v=XHPL-rX9m-Q
@@ -76,21 +91,12 @@ class Authentication extends React.Component {
   */
  handleLogIn (){
     //update link to heroku link later
-    const username = axios.get('http://127.0.0.1:5000/Login/'+document.getElementsByClassName('input-email')[0].value+'/'+document.getElementsByClassName('input-password')[0].value).then((username) =>{
-      alert("Made it to then");
-      if(username === 500){
-        alert("Some error occurred");
+    alert("Here")
+    fetch('/Login/test@gmail.com/test').then(response=>{
+      if(response.ok){
+        return response.json()
       }
-      else if(username === 404){
-        alert("Incorrect username or password");
-      }
-      else{
-        this.setState({
-          username: username,
-        });
-        alert("Logging in as" + username);
-      }
-    })
+    }).then(window.location.assign("http://localhost:3000/computing-resources"))
     
   }
 

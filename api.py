@@ -1,16 +1,12 @@
-from flask import Flask
+from flask import Flask,jsonify,request
 from flask_restful import Resource, Api, reqparse
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import event
 from werkzeug.security import check_password_hash, generate_password_hash
 import os
 
-#TODO: assign api to actual Flask app
-#TODO: figure out if we store datasets in database and if not, write code for sending zip file
-#TODO: determine how to run this with javascript and if it works without flask having a front end portion
-#TODO: add checkin function for hardware resources
 
-app = Flask(__name__) # replace this with actual app
+app = Flask(__name__) 
 
 #database setup
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///auth.db"
@@ -18,7 +14,6 @@ db = SQLAlchemy(app)
 
 
 api = Api(app)
-parser = reqparse.RequestParser()
 
 
 class User(db.Model):
@@ -50,7 +45,6 @@ class Project(db.Model):
 
     # def __repr__(self):
     #     return f'{self.id}{self.name}{self.description}'
-
 
 class HardwareResources(Resource):
     # get function that is called whenever we need to display the current hardware capacity for a hardware set
@@ -158,11 +152,22 @@ class Login(Resource):
         return "Username is already taken", #plus some error code if needed
 
 
+
+# @app.route('/login',methods=['GET'])
+# def login():
+#     username = request.args["username"]
+#         #hashed_password = check_password_hash(password)
+#     entry = User.query.filter_by(username=username).first()
+#     if entry is not None: #and check_password_hash(entry.password, password):
+#         return{
+#             "username":username
+#         }
+#     return "Incorrect username or password", 404
+
 api.add_resource(HardwareResources, '/HardwareResources/<set_id>')
 api.add_resource(Projects, '/Projects/<name>/<description>/<project_id>')
 api.add_resource(Datasets, '/Datasets/<dataset_id>')
 api.add_resource(Login, '/Login/<username>/<password>')
 
-app.run()
-
-
+if __name__ == '__main__':
+    app.run(debug=True)
