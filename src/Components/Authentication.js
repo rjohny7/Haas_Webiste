@@ -107,9 +107,6 @@ class Authentication extends React.Component {
     //update link to heroku link later
     //e.preventDefault();
 
-    this.props.setLoggedIn(true);
-    this.props.setUser(document.getElementsByClassName('input-email')[0].value);
-    this.setState({loggedIn: true, username: document.getElementsByClassName('input-email')[0].value})
     //<Route path="/user"></Route>
     fetch('/Login/'+document.getElementsByClassName('input-email')[0].value+'/'+document.getElementsByClassName('input-password')[0].value, {method:"GET"}).then(response=>{
       if(response.ok){
@@ -130,6 +127,8 @@ class Authentication extends React.Component {
         })
         console.log("Signing in as " + data);
         alert("Signing in as " + data);
+        this.props.setLoggedIn(true);
+        this.props.setUser(document.getElementsByClassName('input-email')[0].value);
       }
     })
   }
