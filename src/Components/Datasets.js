@@ -85,34 +85,34 @@ class datasets extends React.Component {
     const first = new data(
       "Abdominal and Direct Fetal ECG Database",
       " Multichannel fetal electrocardiogram recordings obtained from 5 different women in labor, between 38 and 41 weeks of gestation.",
-      "https://physionet.org/content/adfecgdb/1.0.0/"
+      "https://physionet.org/static/published-projects/adfecgdb/abdominal-and-direct-fetal-ecg-database-1.0.0.zip"
     );
     const second = new data(
       "A Pressure Map Dataset for In-bed Posture Classification",
       " Pressure sensor data captured from 13 participants in various sleeping postures. ",
-      "https://physionet.org/content/pmd/1.0.0/"
+      "https://physionet.org/static/published-projects/pmd/a-pressure-map-dataset-for-in-bed-posture-classification-1.0.0.zip"
     );
     const third = new data(
       "CAP Sleep Database",
       "The CAP Sleep Database is a collection of 108 polysomnographic recordings registered at the Sleep Disorders Center of the Ospedale Maggiore of Parma, Italy",
-      "https://physionet.org/content/capslpdb/1.0.0/"
+      "https://physionet.org/static/published-projects/capslpdb/cap-sleep-database-1.0.0.zip"
     );
     const fourth = new data(
       "Noise Enhancement of Sensorimotor",
       " Postural sway measurements for 27 healthy young and elderly volunteers.",
-      "https://physionet.org/content/nesfdb/1.0.0/"
+      "https://physionet.org/static/published-projects/nesfdb/noise-enhancement-of-sensorimotor-function-1.0.0.zip"
     );
 
     const fifth = new data(
       "Sleep Bioradiolocation Database",
       "The database contains 32 records of non-contact sleep monitoring by a bioradar.",
-      "https://physionet.org/content/sleepbrl/1.0.0/"
+      "https://physionet.org/static/published-projects/sleepbrl/sleep-bioradiolocation-database-1.0.0.zip"
     );
 
     const sixth = new data(
-      "VOICED Databse:",
-      "This database includes 208 voice samples, from 150 pathological, and 58 healthy voices. ",
-      "https://physionet.org/content/voiced/1.0.0/"
+      "Wrist PPG During Exercise",
+      "Photoplethysmogram recorded from 8 volunteers during walking, running and bike riding.",
+      "https://physionet.org/static/published-projects/wrist/wrist-ppg-during-exercise-1.0.0.zip"
     );
     this.updateTable(first);
     this.updateTable(second);
