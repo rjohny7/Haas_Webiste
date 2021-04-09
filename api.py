@@ -6,7 +6,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 import os
 
 
-app = Flask(__name__) 
+app = Flask(__name__,static_folder='./build',static_url_path='/') 
 
 #database setup
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///auth.db"
@@ -15,7 +15,9 @@ db = SQLAlchemy(app)
 
 api = Api(app)
 
-
+@app.route('/')
+def index():    #load page from react
+    return app.send_static_file('index.html')
 class User(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     username = db.Column(db.String(20),unique=True,nullable=False)
@@ -59,7 +61,7 @@ class HardwareResources(Resource):
     def get(self, set_id, checkout, amount):
         # get database information for that hardware set
         entry = HWSets.query.all()
-        return jsonify([*map(self.hardware_serialize, entry)])
+        return jsonify([self.hardware_serialize(i) for i in entry])
 
     # function for requesting hardware resources. called when someone sends request for checkout/checkin
     # checkout is a T/F variable for checkout and checkin respectively
@@ -173,4 +175,4 @@ api.add_resource(Datasets, '/Datasets/<dataset_id>')
 api.add_resource(Login, '/Login/<username>/<password>')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=False,port=os.environ.get('PORT',80))
