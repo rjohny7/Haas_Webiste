@@ -47,16 +47,18 @@ class Project(db.Model):
     #     return f'{self.id}{self.name}{self.description}'
 
 class HardwareResources(Resource):
+
+    def hardware_serialize(self,entry):
+        return{
+            "id": "HWSet " + str(entry.id),
+            "capacity":entry.capacity,
+            "amount":entry.capacity
+        }
     # get function that is called whenever we need to display the current hardware capacity for a hardware set
-    def get(self, set_id):
+    def get(self):
         # get database information for that hardware set
-        entry = HWSets.query.get(set_id)
-        if entry is not None:
-            return{
-                "HWSet": entry.id,
-                "capacity":entry.capacity
-            }
-        return "Not found", 404
+        entry = HWSets.query.all()
+        return jsonify([*map(hardware_serialize,entry)])
 
     # function for requesting hardware resources. called when someone sends request for checkout/checkin
     # checkout is a T/F variable for checkout and checkin respectively
