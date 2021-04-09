@@ -27,7 +27,7 @@ class Project extends React.Component {
                     <Label>Project ID</Label>
                     <Input type="text" placeholder="Enter ID" className = 'project-id-create'/>
                 </FormGroup>
-                <button onClick={() => this.handleCreate()}>Create Project</button>
+                <button type = "button" onClick={() => this.handleCreate()}>Create Project</button>
                 <div className="text-center pt-3">
                     Or manage an existing project
                 </div>
@@ -35,7 +35,7 @@ class Project extends React.Component {
                     <Label>Project ID</Label>
                     <Input type="text" placeholder="Enter ID" className = 'project-id-view'/>
                 </FormGroup>
-                <button onClick={() => this.handleView()}>View Project</button>
+                <button type = "button" onClick={() => this.handleView()}>View Project</button>
             </Form>
         );
     }

@@ -46,6 +46,7 @@ class Project(db.Model):
     # def __repr__(self):
     #     return f'{self.id}{self.name}{self.description}'
 
+
 class HardwareResources(Resource):
 
     def hardware_serialize(self,entry):
@@ -55,30 +56,29 @@ class HardwareResources(Resource):
             "amount":entry.capacity
         }
     # get function that is called whenever we need to display the current hardware capacity for a hardware set
-    def get(self):
+    def get(self, set_id, checkout, amount):
         # get database information for that hardware set
         entry = HWSets.query.all()
-        return jsonify([*map(hardware_serialize,entry)])
+        return jsonify([*map(self.hardware_serialize, entry)])
 
     # function for requesting hardware resources. called when someone sends request for checkout/checkin
     # checkout is a T/F variable for checkout and checkin respectively
-    def post(self, set_id):
-        parser.add_argument("checkout")
-        parser.add_argument("amount")
-        args = parser.parse_args()
+    def post(self, set_id, checkout, amount):
         # get database information for that hardware set
         entry = HWSets.query.get(set_id)
         if entry is not None:
             #set id is in the database, so we allow the checkout
-            if args['checkout'] == "T":
+            if checkout == "T" and entry.capacity >= int(amount):
                 #db.write(set_id, entry['capacity'] - int(args['amount']))
-                entry.capacity -= int(args['amount'])
+                entry.capacity -= int(amount)
                 db.session.commit()
             #set id is in the database, so we allow the checkin
-            else:
+            elif checkout == "F":
                 #db.write(set_id, entry['capacity'] + int(args['amount']))
-                entry.capacity -= int(args['amount'])
+                entry.capacity += int(amount)
                 db.session.commit()
+            else:
+                return "Requested amount exceeds available hardware"
             return{
                 "HWSet": entry.id,
                 "capacity":entry.capacity
@@ -167,7 +167,7 @@ class Login(Resource):
 #     return "Incorrect username or password", 404
 
 
-api.add_resource(HardwareResources, '/HardwareResources/<set_id>')
+api.add_resource(HardwareResources, '/HardwareResources/<set_id>/<checkout>/<amount>')
 api.add_resource(Projects, '/Projects/<name>/<description>/<project_id>')
 api.add_resource(Datasets, '/Datasets/<dataset_id>')
 api.add_resource(Login, '/Login/<username>/<password>')

@@ -60,6 +60,7 @@ class Authentication extends React.Component {
           </Container>
           <Container className="signup-button">
             <button
+            type = "button"
               onClick={() => this.handleSignUp()}
             >
               Sign Up
