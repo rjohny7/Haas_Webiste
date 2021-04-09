@@ -18,7 +18,6 @@ api = Api(app)
 
 @app.route('/')
 def index():    #load page from react
-    return 'Hello World'
     return app.send_static_file('index.html')
 class User(db.Model):
     id = db.Column(db.Integer,primary_key=True)
