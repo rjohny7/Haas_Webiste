@@ -167,6 +167,7 @@ class availabilityTable extends React.Component {
 this method must be updated later once the backend is implemented. Right now it randomly decides if a location has resources or not. Thus, once the backend can communicate, it can notify this method whether the selected location has hardware resources available or not
 ******************************************************************
   */
+ 
   updateTable() {
     //randomly decides if the location has resources
     let isFull = 0;
