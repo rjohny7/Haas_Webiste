@@ -22,7 +22,7 @@ class User(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     username = db.Column(db.String(20),unique=True,nullable=False)
     password = db.Column(db.String(20),nullable=False)
-
+    credits = db.Column (db.Integer)
     # def __repr__(self):
     #     return f"User('{self.username}')"
 
@@ -31,7 +31,7 @@ class HWSets(db.Model):
     __tablename__='hardware'
     id = db.Column(db.Integer,primary_key=True)
     capacity = db.Column(db.Integer)
-
+    availability = db.Column(db.Integer)
 
 @event.listens_for(HWSets.__table__,'after_create')
 def create_datasets(*args,**kwargLogs):
