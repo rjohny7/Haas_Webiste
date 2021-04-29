@@ -1,18 +1,20 @@
 import React from "react";
 import "./Availibility.css";
 import {Form, FormGroup, Label, Input} from "reactstrap";
-//const locations = ["Austin", "Houston", "Dallas", "Location"];
-const sets = ["HWSet 1", "HWSet 2"];
+/*const locations = ["Austin", "Houston", "Dallas", "Location"];
+//const sets = ["HWSet 1", "HWSet 2"];
 //const availableKeyWords = ["", "no"];
-const NO = 0;
+//const NO = 0;*/
 
-class availabilityTable extends React.Component {
+class Availability extends React.Component {
   //creates a table that shows whether there are available hardware resources in the area
   constructor(props) {
     super(props);
     this.state = {
       availability: [20,10],
       capacity: [20,10],
+      loggedIn: this.props.loggedIn,
+      username: this.props.userName,
     };
   }
 
@@ -111,6 +113,8 @@ class availabilityTable extends React.Component {
         this.setState({
           availability: avail,
           capacity: capac,
+          loggedIn: this.props.loggedIn,
+          username: this.props.userName,
         })
       }
     })
@@ -137,6 +141,8 @@ class availabilityTable extends React.Component {
         this.setState({
           availability: avail,
           capacity: capac,
+          loggedIn: this.props.loggedIn,
+          username: this.props.userName,
         })
       }
     })
@@ -158,6 +164,8 @@ class availabilityTable extends React.Component {
         this.setState({
           availability: avail,
           capacity: capac,
+          loggedIn: this.props.loggedIn,
+          username: this.props.userName,
         })
       }
     })
@@ -183,4 +191,4 @@ this method must be updated later once the backend is implemented. Right now it 
   }
 }
 
-export default availabilityTable;
+export default Availability;

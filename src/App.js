@@ -3,7 +3,7 @@ import "./App.css";
 import Navbar from "./Components/Navbar";
 import Home from "./Components/Home";
 import Carousel from "./Components/Carousel";
-import availabilityTable from "./Components/Availability";
+import Availability from "./Components/Availability";
 import Authentication from "./Components/Authentication";
 import Project from "./Components/Project";
 import datasets from "./Components/Datasets";
@@ -34,8 +34,9 @@ function App(props) {
           {/* Page 1 Route*/}
           <Route
             path="/computing-resources"
-            exact
-            component={availabilityTable}
+            render={(props) => <Availability {...props} init={0} />}
+            /*exact
+            component={availabilityTable}*/
           />
         </Switch>
         <Switch>
