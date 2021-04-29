@@ -35,8 +35,8 @@ class HWSets(db.Model):
 
 @event.listens_for(HWSets.__table__,'after_create')
 def create_datasets(*args,**kwargLogs):
-    db.session.add(HWSets(capacity=20))
-    db.session.add(HWSets(capacity=10))
+    db.session.add(HWSets(capacity=20,availability=20))
+    db.session.add(HWSets(capacity=10,availability=20))
     db.session.commit()
 
 
@@ -149,7 +149,7 @@ class Login(Resource):
         hashed_password = generate_password_hash(password)
         entry = User.query.filter_by(username=username).first()
         if entry is None:
-            user = User(username=username,password=hashed_password)
+            user = User(username=username,password=hashed_password,credits=10)  #new user have 10 free credits
             db.session.add(user)
             db.session.commit()
             return username, 200
