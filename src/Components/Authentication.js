@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./Authentication.css";
 import { Form, FormGroup, Label, Input, Container, Navbar } from "reactstrap";
-import axios from 'axios';
+import axios from "axios";
 
 import {
   FacebookLoginButton,
@@ -10,7 +10,7 @@ import {
 import { StylesProvider } from "@material-ui/styles";
 
 class Authentication extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       loggedIn: this.props.loggedIn,
@@ -33,10 +33,17 @@ class Authentication extends React.Component {
   // }
   render() {
     if (this.state.loggedIn) {
-      return(
+      return (
         <div>
-          <p>You are currently signed in as {this.state.username}</p><br/>
-          <button id="sign-out" className="btn-lg btn-dark btn-block" onClick={() => this.handleLogOut()}>Sign Out</button>
+          <p>You are currently signed in as {this.state.username}</p>
+          <br />
+          <button
+            id="sign-out"
+            className="btn-lg btn-dark btn-block"
+            onClick={() => this.handleLogOut()}
+          >
+            Sign Out
+          </button>
         </div>
       );
     }
@@ -60,18 +67,12 @@ class Authentication extends React.Component {
 
         <Container>
           <Container className="login-button">
-            <button type="button"
-              onClick={() => this.handleLogIn()}
-              
-            >
+            <button type="button" onClick={() => this.handleLogIn()}>
               Log in
             </button>
           </Container>
           <Container className="signup-button">
-            <button
-            type = "button"
-              onClick={() => this.handleSignUp()}
-            >
+            <button type="button" onClick={() => this.handleSignUp()}>
               Sign Up
             </button>
           </Container>
@@ -97,40 +98,46 @@ class Authentication extends React.Component {
   /*
     The following handlers must be updated
   */
- handleLogOut(){
+  handleLogOut() {
     this.props.setLoggedIn(false);
     this.props.setUser("");
-    this.setState({loggedIn: false, userName: ""});
- }
+    this.setState({ loggedIn: false, userName: "" });
+  }
 
- handleLogIn (){
+  handleLogIn() {
     //update link to heroku link later
     //e.preventDefault();
 
     //<Route path="/user"></Route>
-    fetch('/Login/'+document.getElementsByClassName('input-email')[0].value+'/'+document.getElementsByClassName('input-password')[0].value, {method:"GET"}).then(response=>{
-      if(response.ok){
-        return response.json()
-      }
-    }).then(data => {
-      console.log(data);
-      if(data == null){
-        alert("Some error occurred");
-      }
-      else if(data == "Incorrect username or password"){
-        alert(data);
-      }
-      else{
-        this.setState({
-          loggedIn: true,
-          username: data,
-        })
-        console.log("Signing in as " + data);
-        alert("Signing in as " + data);
-        this.props.setLoggedIn(true);
-        this.props.setUser(document.getElementsByClassName('input-email')[0].value);
-      }
-    })
+    fetch(
+      "/Login/" +
+        document.getElementsByClassName("input-email")[0].value +
+        "/" +
+        document.getElementsByClassName("input-password")[0].value,
+      { method: "GET" }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        console.log(data);
+        if (data == null) {
+          alert("Some error occurred");
+        } else if (data == "Incorrect username or password") {
+          alert(data);
+        } else {
+          this.setState({
+            loggedIn: true,
+            username: data,
+          });
+          console.log("Signing in as " + data);
+          alert("Signing in as " + data);
+          this.props.setLoggedIn(true);
+          this.props.setUser(data);
+        }
+      });
   }
 
   handleFacebook() {
@@ -144,24 +151,30 @@ class Authentication extends React.Component {
   handleSignUp() {
     //update link to heroku link later
     //e.preventDefault();
-    fetch('/Login/'+document.getElementsByClassName('input-email')[0].value+'/'+document.getElementsByClassName('input-password')[0].value, {method:"POST"}).then(response=>{
-      if(response.ok){
-        return response.json()
-      }
-    }).then(data => {
-      if(data == null){
-        alert("Some error occurred");
-      }
-      else if(data == "Username is already taken"){
-        alert(data);
-      }
-      else{
-        this.setState({
-          username: data,
-        })
-        alert("Signing in after registering as " + data);
-      }
-    })
+    fetch(
+      "/Login/" +
+        document.getElementsByClassName("input-email")[0].value +
+        "/" +
+        document.getElementsByClassName("input-password")[0].value,
+      { method: "POST" }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        if (data == null) {
+          alert("Some error occurred");
+        } else if (data == "Username is already taken") {
+          alert(data);
+        } else {
+          this.setState({
+            username: data,
+          });
+          alert("Signing in after registering as " + data);
+        }
+      });
   }
   //Login functionality will be replaced in the future
 }
