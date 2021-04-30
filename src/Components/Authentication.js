@@ -3,10 +3,12 @@ import "./Authentication.css";
 import { Form, FormGroup, Label, Input, Container, Navbar } from "reactstrap";
 import axios from "axios";
 
-import {
-  FacebookLoginButton,
-  GoogleLoginButton,
-} from "react-social-login-buttons";
+//<script src="https://apis.google.com/js/platform.js" async defer></script>;
+
+// import {
+//   FacebookLoginButton,
+//   GoogleLoginButton,
+// } from "react-social-login-buttons"; These are not being implemented as it requires our app to be verified by the respective companies. Otherwise they would be implemented
 import { StylesProvider } from "@material-ui/styles";
 
 class Authentication extends React.Component {
@@ -80,14 +82,6 @@ class Authentication extends React.Component {
         <div className="text-center pt-3">
           Or continue with your social account
         </div>
-        <FacebookLoginButton
-          className="mt-3 mb-3"
-          onClick={() => this.handleFacebook()}
-        />
-        <GoogleLoginButton
-          className="mt-3 mb-3"
-          onClick={() => this.handleGoogle()}
-        />
         <div className="text-center">
           <a href="/forgot-password">Forgot Password</a>
         </div>
@@ -140,13 +134,13 @@ class Authentication extends React.Component {
       });
   }
 
-  handleFacebook() {
+  /* handleFacebook() {
     alert("Facebook");
   }
-
+                                      This code is commented out as we are not implementing the google/facebook buttons
   handleGoogle() {
     alert("Google");
-  }
+  }*/
 
   handleSignUp() {
     //update link to heroku link later
@@ -173,6 +167,8 @@ class Authentication extends React.Component {
             username: data,
           });
           alert("Signing in after registering as " + data);
+          this.props.setLoggedIn(true);
+          this.props.setUser(data);
         }
       });
   }
