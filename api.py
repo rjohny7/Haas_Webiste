@@ -36,7 +36,7 @@ class HWSets(db.Model):
 @event.listens_for(HWSets.__table__,'after_create')
 def create_datasets(*args,**kwargLogs):
     db.session.add(HWSets(capacity=20,availability=20))
-    db.session.add(HWSets(capacity=10,availability=20))
+    db.session.add(HWSets(capacity=10,availability=10))
     db.session.commit()
 
 
