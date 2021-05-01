@@ -113,7 +113,7 @@ class Availability extends React.Component {
         const avail = this.state.availability.slice(0, this.state.availability.length);
         const capac = this.state.capacity.slice(0, this.state.capacity.length);
         //temporarily capacity and availability are the same thing
-        avail[parseInt(set_id)-1] = data['capacity'];
+        avail[parseInt(set_id)-1] = data['availability'];
         capac[parseInt(set_id)-1] = data['capacity'];
         this.setState({
           availability: avail,
@@ -145,7 +145,7 @@ class Availability extends React.Component {
         const avail = this.state.availability.slice(0, this.state.availability.length);
         const capac = this.state.capacity.slice(0, this.state.capacity.length);
         //temporarily capacity and availability are the same thing
-        avail[parseInt(set_id)-1] = data['capacity'];
+        avail[parseInt(set_id)-1] = data['availability'];
         capac[parseInt(set_id)-1] = data['capacity'];
         this.setState({
           availability: avail,
@@ -170,6 +170,7 @@ class Availability extends React.Component {
       else{
         const avail = [data[0]['amount'], data[1]['amount']];
         const capac = [data[0]['capacity'], data[1]['capacity']];
+        console.log(data);
         this.setState({
           availability: avail,
           capacity: capac,

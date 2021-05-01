@@ -61,6 +61,7 @@ class HardwareResources(Resource):
     def get(self, set_id, checkout, amount, username):
         # get database information for that hardware set
         entry = HWSets.query.all()
+        print([self.hardware_serialize(i) for i in entry])
         return jsonify([self.hardware_serialize(i) for i in entry])
 
     # function for requesting hardware resources. called when someone sends request for checkout/checkin
@@ -92,7 +93,8 @@ class HardwareResources(Resource):
                 return "Requested amount exceeds available hardware"
             return{
                 "HWSet": entry.id,
-                "capacity": entry.capacity
+                "capacity": entry.capacity,
+                "availability": entry.availability
             }
         return "Not found", 404
 
