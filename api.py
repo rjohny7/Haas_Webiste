@@ -15,9 +15,12 @@ db = SQLAlchemy(app)
 
 api = Api(app)
 
+
 @app.route('/')
 def index():    #load page from react
     return app.send_static_file('index.html')
+
+
 class User(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     username = db.Column(db.String(20),unique=True,nullable=False)
@@ -32,6 +35,7 @@ class HWSets(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     capacity = db.Column(db.Integer)
     availability = db.Column(db.Integer)
+
 
 @event.listens_for(HWSets.__table__,'after_create')
 def create_datasets(*args,**kwargLogs):
@@ -55,13 +59,12 @@ class HardwareResources(Resource):
         return{
             "id": "HWSet " + str(entry.id),
             "capacity":entry.capacity,
-            "amount":entry.capacity
+            "amount":entry.availability
         }
     # get function that is called whenever we need to display the current hardware capacity for a hardware set
     def get(self, set_id, checkout, amount, username):
         # get database information for that hardware set
         entry = HWSets.query.all()
-        print([self.hardware_serialize(i) for i in entry])
         return jsonify([self.hardware_serialize(i) for i in entry])
 
     # function for requesting hardware resources. called when someone sends request for checkout/checkin
@@ -71,7 +74,6 @@ class HardwareResources(Resource):
         entry = HWSets.query.get(set_id)
         amount = int(amount)
         user = User.query.filter_by(username=username).first()
-        print(entry.availability)
         if entry is not None:
             #set id is in the database, so we allow the checkout
             if checkout == "T" and entry.capacity >= amount:
@@ -83,7 +85,7 @@ class HardwareResources(Resource):
                     return "You do not have enough credits"
             #set id is in the database, so we allow the checkin
             elif checkout == "F":
-                if amount > (entry.availability + entry.capacity):
+                if (entry.availability + amount) > entry.capacity:
                     return "This hardware set does not have the capacity to checkin that much"
                 else:
                     user.credits += amount
@@ -94,7 +96,8 @@ class HardwareResources(Resource):
             return{
                 "HWSet": entry.id,
                 "capacity": entry.capacity,
-                "availability": entry.availability
+                "availability": entry.availability,
+                "credits": user.credits
             }
         return "Not found", 404
 
@@ -127,9 +130,9 @@ class Projects(Resource):
             db.session.add(project)
             db.session.commit()
             return {
-                'project_id':project.id,
-                'name':project.name,
-                'description':project.description
+                'project_id': project.id,
+                'name': project.name,
+                'description': project.description
             }
         return "Project id already exists"
 
@@ -152,7 +155,10 @@ class Login(Resource):
         #hashed_password = check_password_hash(password)
         entry = User.query.filter_by(username=username).first()
         if entry is not None and check_password_hash(entry.password, password):
-            return username
+            return {
+                "username": username,
+                "credits": entry.credits
+            }
         return "Incorrect username or password"
 
     # function is called whenever someone is registering
@@ -163,7 +169,10 @@ class Login(Resource):
             user = User(username=username,password=hashed_password,credits=10)  #new user have 10 free credits
             db.session.add(user)
             db.session.commit()
-            return username, 200
+            return {
+                "username": username,
+                "credits": user.credits
+            }
         return "Username is already taken"
 
 

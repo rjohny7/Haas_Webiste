@@ -15,6 +15,7 @@ class Availability extends React.Component {
       capacity: ["Waiting on server response", "Waiting on server response"],
       loggedIn: this.props.loggedIn,
       username: this.props.userName,
+      credits: this.props.credits,
     };
   }
 
@@ -115,12 +116,15 @@ class Availability extends React.Component {
         //temporarily capacity and availability are the same thing
         avail[parseInt(set_id)-1] = data['availability'];
         capac[parseInt(set_id)-1] = data['capacity'];
+        let credits_left = data["credits"];
         this.setState({
           availability: avail,
           capacity: capac,
           loggedIn: this.props.loggedIn,
           username: this.props.userName,
+          credits: credits_left,
         })
+        console.log(this.state.credits);
       }
     })
   }
@@ -147,11 +151,13 @@ class Availability extends React.Component {
         //temporarily capacity and availability are the same thing
         avail[parseInt(set_id)-1] = data['availability'];
         capac[parseInt(set_id)-1] = data['capacity'];
+        let credits_left = data["credits"];
         this.setState({
           availability: avail,
           capacity: capac,
           loggedIn: this.props.loggedIn,
           username: this.props.userName,
+          credits: credits_left,
         })
       }
     })
@@ -170,7 +176,6 @@ class Availability extends React.Component {
       else{
         const avail = [data[0]['amount'], data[1]['amount']];
         const capac = [data[0]['capacity'], data[1]['capacity']];
-        console.log(data);
         this.setState({
           availability: avail,
           capacity: capac,

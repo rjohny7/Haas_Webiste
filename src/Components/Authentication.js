@@ -17,6 +17,7 @@ class Authentication extends React.Component {
     this.state = {
       loggedIn: this.props.loggedIn,
       username: this.props.userName,
+      credits: this.props.credits,
     };
   }
   // componentDidMount() {
@@ -124,12 +125,14 @@ class Authentication extends React.Component {
         } else {
           this.setState({
             loggedIn: true,
-            username: data,
+            username: data["username"],
+            credits: data["credits"],
           });
-          console.log("Signing in as " + data);
-          alert("Signing in as " + data);
+          console.log("Signing in as " + data["username"]);
+          alert("Signing in as " + data["username"]);
           this.props.setLoggedIn(true);
-          this.props.setUser(data);
+          this.props.setUser(data["username"]);
+          console.log(this.state.credits);
         }
       });
   }
@@ -164,11 +167,12 @@ class Authentication extends React.Component {
           alert(data);
         } else {
           this.setState({
-            username: data,
+            username: data["username"],
+            credits: data["credits"]
           });
-          alert("Signing in after registering as " + data);
+          alert("Signing in after registering as " + data["username"]);
           this.props.setLoggedIn(true);
-          this.props.setUser(data);
+          this.props.setUser(data["username"]);
         }
       });
   }
