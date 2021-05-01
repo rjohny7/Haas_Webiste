@@ -58,32 +58,41 @@ class HardwareResources(Resource):
             "amount":entry.capacity
         }
     # get function that is called whenever we need to display the current hardware capacity for a hardware set
-    def get(self, set_id, checkout, amount):
+    def get(self, set_id, checkout, amount, username):
         # get database information for that hardware set
         entry = HWSets.query.all()
         return jsonify([self.hardware_serialize(i) for i in entry])
 
     # function for requesting hardware resources. called when someone sends request for checkout/checkin
     # checkout is a T/F variable for checkout and checkin respectively
-    def post(self, set_id, checkout, amount):
+    def post(self, set_id, checkout, amount, username):
         # get database information for that hardware set
         entry = HWSets.query.get(set_id)
+        amount = int(amount)
+        user = User.query.filter_by(username=username).first()
+        print(entry.availability)
         if entry is not None:
             #set id is in the database, so we allow the checkout
-            if checkout == "T" and entry.capacity >= int(amount):
-                #db.write(set_id, entry['capacity'] - int(args['amount']))
-                entry.capacity -= int(amount)
-                db.session.commit()
+            if checkout == "T" and entry.capacity >= amount:
+                if user.credits >= amount:
+                    user.credits -= amount
+                    entry.availability -= amount
+                    db.session.commit()
+                else:
+                    return "You do not have enough credits"
             #set id is in the database, so we allow the checkin
             elif checkout == "F":
-                #db.write(set_id, entry['capacity'] + int(args['amount']))
-                entry.capacity += int(amount)
-                db.session.commit()
+                if amount > (entry.availability + entry.capacity):
+                    return "This hardware set does not have the capacity to checkin that much"
+                else:
+                    user.credits += amount
+                    entry.availability += amount
+                    db.session.commit()
             else:
                 return "Requested amount exceeds available hardware"
             return{
                 "HWSet": entry.id,
-                "capacity":entry.capacity
+                "capacity": entry.capacity
             }
         return "Not found", 404
 
@@ -169,7 +178,7 @@ class Login(Resource):
 #     return "Incorrect username or password", 404
 
 
-api.add_resource(HardwareResources, '/HardwareResources/<set_id>/<checkout>/<amount>')
+api.add_resource(HardwareResources, '/HardwareResources/<set_id>/<checkout>/<amount>/<username>')
 api.add_resource(Projects, '/Projects/<name>/<description>/<project_id>')
 api.add_resource(Datasets, '/Datasets/<dataset_id>')
 api.add_resource(Login, '/Login/<username>/<password>')

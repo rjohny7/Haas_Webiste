@@ -34,7 +34,7 @@ function App(props) {
           {/* Page 1 Route*/}
           <Route
             path="/computing-resources"
-            render={(props) => <Availability {...props} init={0} />}
+            render={(props) => <Availability {...props} loggedIn={loggedIn[0]} userName={userName[0]} />}
             /*exact
             component={availabilityTable}*/
           />

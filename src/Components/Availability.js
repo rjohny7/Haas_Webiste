@@ -11,8 +11,8 @@ class Availability extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      availability: [20,10],
-      capacity: [20,10],
+      availability: ["Waiting on server response", "Waiting on server response"],
+      capacity: ["Waiting on server response", "Waiting on server response"],
       loggedIn: this.props.loggedIn,
       username: this.props.userName,
     };
@@ -93,7 +93,12 @@ class Availability extends React.Component {
   }
 
   handleCheckout(set_id, input_value){
-    fetch('/HardwareResources/'+set_id+'/T/'+input_value, {method:"POST"}).then(response => {
+    if(!this.state.loggedIn){
+      alert("You are not currently logged in");
+      console.log(this.state.username, this.state.loggedIn);
+      return;
+    }
+    fetch('/HardwareResources/'+set_id+'/T/'+input_value+'/'+this.state.username, {method:"POST"}).then(response => {
         if(response.ok){
           return response.json()
         }
@@ -101,7 +106,7 @@ class Availability extends React.Component {
       if(data == null){
         alert("Some error occurred");
       }
-      else if(data == "Requested amount exceeds available hardware"){
+      else if(data === "Requested amount exceeds available hardware" || data === "You do not have enough credits"){
         alert(data);
       }
       else{
@@ -121,7 +126,11 @@ class Availability extends React.Component {
   }
 
   handleCheckin(set_id, input_value){
-    fetch('/HardwareResources/'+set_id+'/F/'+input_value, {method:"POST"}).then(response => {
+    if(!this.state.loggedIn) {
+      alert("You are not currently logged in");
+      return;
+    }
+    fetch('/HardwareResources/'+set_id+'/F/'+input_value+'/'+this.state.username, {method:"POST"}).then(response => {
       if(response.ok){
         return response.json()
       }
@@ -129,7 +138,7 @@ class Availability extends React.Component {
       if(data == null){
         alert("Some error occurred");
       }
-      else if(data == "Requested amount exceeds available hardware"){
+      else if(data === "Requested amount exceeds available hardware" || data === "This hardware set does not have the capacity to checkin that much"){
         alert(data);
       }
       else{
@@ -150,7 +159,7 @@ class Availability extends React.Component {
   
   componentWillMount(){
     //dummy variables a b c since get does not use them
-    fetch('/HardwareResources/a/b/c', {method:"GET"}).then(response=>{
+    fetch('/HardwareResources/a/b/c/d', {method:"GET"}).then(response=>{
       if(response.ok){
         return response.json()
       }
