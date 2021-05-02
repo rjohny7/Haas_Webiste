@@ -31,7 +31,7 @@ class Availability extends React.Component {
     //table shows resource availability and allows user to check in/out resources
     var message;
     if (this.state.loggedIn) {
-      message = "Welcome, " + this.state.userName + ", you have " + this.state.credits + " credits left";
+      message = "Welcome, " + this.state.username + ", you have " + this.state.credits + " credits left";
     }
     else {
       message = "Please sign in to access hardware resources";

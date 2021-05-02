@@ -19,8 +19,10 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 function App(props) {
    const loggedIn = useState(false);
    const userName = useState("");
+   const credits = useState(0);
    const changeUser = userName[1];
    const changeState = loggedIn[1];
+   const changeCredits = credits[1];
   return (
     <>
       {/* Use router to switch pages through the navbar */}
@@ -34,7 +36,7 @@ function App(props) {
           {/* Page 1 Route*/}
           <Route
             path="/computing-resources"
-            render={(props) => <Availability {...props} loggedIn={loggedIn[0]} userName={userName[0]} />}
+            render={(props) => <Availability {...props} loggedIn={loggedIn[0]} userName={userName[0]} credits={credits[0]} />}
             /*exact
             component={availabilityTable}*/
           />
@@ -50,7 +52,8 @@ function App(props) {
           {/* Page 3 Route*/}
           <Route path="/login"
           render={(props)=> <Authentication {...props} loggedIn={loggedIn[0]} 
-            userName={userName[0]} 
+            userName={userName[0]} credits={credits[0]}
+            setCredits={function setCredits(_credits){changeCredits(_credits);}}
             setLoggedIn={function setLoggedIn(_loggedIn){changeState(_loggedIn);}} 
             setUser={function setUser(_userName){changeUser(_userName)}}/>}  
           />
