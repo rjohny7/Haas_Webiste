@@ -39,6 +39,7 @@ class Authentication extends React.Component {
       return (
         <div>
           <p>You are currently signed in as {this.state.username}</p>
+          <p>You currently have {this.state.credits} credits left</p>
           <br />
           <button
             id="sign-out"

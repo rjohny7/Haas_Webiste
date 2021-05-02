@@ -1,6 +1,6 @@
 import React from "react";
 import "./Availibility.css";
-import {Form, FormGroup, Label, Input} from "reactstrap";
+import {Form, FormGroup, Label, Input, FormText} from "reactstrap";
 /*const locations = ["Austin", "Houston", "Dallas", "Location"];
 //const sets = ["HWSet 1", "HWSet 2"];
 //const availableKeyWords = ["", "no"];
@@ -29,10 +29,18 @@ class Availability extends React.Component {
   render() {
     //creates a table
     //table shows resource availability and allows user to check in/out resources
+    var message;
+    if (this.state.loggedIn) {
+      message = "Welcome, " + this.state.userName + ", you have " + this.state.credits + " credits left";
+    }
+    else {
+      message = "Please sign in to access hardware resources";
+    }
+
     return (
       <div>
-        <br/>
-        <p>Checkin or Checkout hardware resources</p><br/>
+        <div>{message}</div>
+        <br/>      
         <table>
           <thead>
             <th>Set</th>
@@ -181,6 +189,7 @@ class Availability extends React.Component {
           capacity: capac,
           loggedIn: this.props.loggedIn,
           username: this.props.userName,
+          credits: this.props.credits,
         })
       }
     })
