@@ -3,7 +3,7 @@
 The web application can be accessed [here](https://haas-teamproject.herokuapp.com/).
 
 ## Hardware Resources
-You can see the available hardware resources in the 'Our Hardware' tab. In order to request computing resources, login or signup from the 'Login or Signup' tab by filling in your email address and password. After signing in, you can checkout or checkin computinng resources in the 'Computing Resources' tab. Credits assosciated with your accounts will be deducted upon checkout.
+You can see the available hardware resources in the 'Our Hardware' tab. In order to request computing resources, login or signup from the 'Login or Signup' tab by filling in your email address and password. After signing in, you can checkout or checkin computing resources in the 'Computing Resources' tab. Credits assosciated with your accounts will be deducted upon checkout.
 
 ## Projects
 
