@@ -86,7 +86,7 @@ class HardwareResources(Resource):
             #set id is in the database, so we allow the checkin
             elif checkout == "F":
                 if (entry.availability + amount) > entry.capacity:
-                    return "This hardware set does not have the capacity to checkin that much"
+                    return "Exceeded hardware set capacity"
                 else:
                     user.credits += amount
                     entry.availability += amount
