@@ -26,6 +26,7 @@ class User(db.Model):
     username = db.Column(db.String(20),unique=True,nullable=False)
     password = db.Column(db.String(20),nullable=False)
     credits = db.Column (db.Integer)
+    checked_out = db.Column(db.Integer)
     # def __repr__(self):
     #     return f"User('{self.username}')"
 
@@ -166,7 +167,7 @@ class Login(Resource):
         hashed_password = generate_password_hash(password)
         entry = User.query.filter_by(username=username).first()
         if entry is None:
-            user = User(username=username,password=hashed_password,credits=10)  #new user have 10 free credits
+            user = User(username=username,password=hashed_password,credits=10,checked_out=0)  #new user have 10 free credits
             db.session.add(user)
             db.session.commit()
             return {
