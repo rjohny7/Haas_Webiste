@@ -133,6 +133,7 @@ class Authentication extends React.Component {
           alert("Signing in as " + data["username"]);
           this.props.setLoggedIn(true);
           this.props.setUser(data["username"]);
+          this.props.setCredits(data["credits"]);
           console.log(this.state.credits);
         }
       });

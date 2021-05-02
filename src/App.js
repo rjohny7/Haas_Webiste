@@ -42,6 +42,9 @@ function App(props) {
                 loggedIn={loggedIn[0]}
                 userName={userName[0]}
                 credits={credits[0]}
+                setCredits={function setCredits(_credits) {
+                  changeCredits(_credits);
+                }}
               />
             )}
             /*exact

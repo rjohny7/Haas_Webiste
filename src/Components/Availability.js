@@ -187,6 +187,7 @@ class Availability extends React.Component {
             username: this.props.userName,
             credits: credits_left,
           });
+          this.props.setCredits(credits_left);
           console.log(this.state.credits);
         }
       });
@@ -239,6 +240,7 @@ class Availability extends React.Component {
             username: this.props.userName,
             credits: credits_left,
           });
+          this.props.setCredits(credits_left);
         }
       });
   }
