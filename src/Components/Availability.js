@@ -217,7 +217,8 @@ class Availability extends React.Component {
           alert("Some error occurred");
         } else if (
           data === "Requested amount exceeds available hardware" ||
-          data === "Exceeded hardware set capacity"
+          data === "Exceeded hardware set capacity" ||
+          data === "You cannot check in more units than you have checked out"
         ) {
           alert(data);
         } else {

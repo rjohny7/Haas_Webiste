@@ -81,6 +81,7 @@ class HardwareResources(Resource):
                 if user.credits >= amount:
                     user.credits -= amount
                     entry.availability -= amount
+                    user.checked_out += amount
                     db.session.commit()
                 else:
                     return "You do not have enough credits"
@@ -88,9 +89,12 @@ class HardwareResources(Resource):
             elif checkout == "F":
                 if (entry.availability + amount) > entry.capacity:
                     return "Exceeded hardware set capacity"
+                elif amount > user.checked_out:
+                    return "You cannot check in more units than you have checked out"
                 else:
                     user.credits += amount
                     entry.availability += amount
+                    user.checked_out -= amount
                     db.session.commit()
             else:
                 return "Requested amount exceeds available hardware"
