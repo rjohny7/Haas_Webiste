@@ -77,7 +77,7 @@ class HardwareResources(Resource):
         user = User.query.filter_by(username=username).first()
         if entry is not None:
             #set id is in the database, so we allow the checkout
-            if checkout == "T" and entry.capacity >= amount:
+            if checkout == "T" and entry.availability >= amount:
                 if user.credits >= amount:
                     user.credits -= amount
                     entry.availability -= amount
