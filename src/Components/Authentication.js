@@ -19,6 +19,19 @@ class Authentication extends React.Component {
       username: this.props.userName,
       credits: this.props.credits,
     };
+    this.setLogIn = this.setLogIn.bind(this);
+    this.setUser = this.setUser.bind(this);
+    this.setCredits = this.setCredits.bind(this);
+  }
+
+  setLogIn(isLoggedIn) {
+    this.props.setLoggedIn(isLoggedIn);
+  }
+  setUser(username) {
+    this.props.setUser(username);
+  }
+  setCredits(credits) {
+    this.props.setCredits(credits);
   }
   // componentDidMount() {
   //   fetch('/Login/test@gmail.com/test').then(response=>{
@@ -34,6 +47,9 @@ class Authentication extends React.Component {
   //     }
   //   }).then(data => console.log(data))
   // }
+  handleBruh() {
+    alert("This is credits: " + String(this.state.credits));
+  }
   render() {
     if (this.state.loggedIn) {
       return (
@@ -51,6 +67,7 @@ class Authentication extends React.Component {
         </div>
       );
     }
+
     /*
             The render code was inspired from a youtube tutorial showing how to create a simple yet professional looking login page. All credit to Kris Foster, https://www.youtube.com/watch?v=XHPL-rX9m-Q
             Some minor tweaks include adding the google login button and instead of writing it in the main App.js file, it is written as a component and will be called when the user clicks on the sign in link. More differences have been added to fit the aesthetic of our website
@@ -81,12 +98,6 @@ class Authentication extends React.Component {
             </button>
           </Container>
         </Container>
-        <div className="text-center pt-3">
-          Or continue with your social account
-        </div>
-        <div className="text-center">
-          <a href="/forgot-password">Forgot Password</a>
-        </div>
       </Form>
     );
   }
@@ -96,8 +107,8 @@ class Authentication extends React.Component {
     The following handlers must be updated
   */
   handleLogOut() {
-    this.props.setLoggedIn(false);
-    this.props.setUser("");
+    this.setLogIn(false);
+    this.setUser("");
     this.setState({ loggedIn: false, userName: "" });
   }
 
@@ -132,9 +143,9 @@ class Authentication extends React.Component {
           });
           console.log("Signing in as " + data["username"]);
           alert("Signing in as " + data["username"]);
-          this.props.setLoggedIn(true);
-          this.props.setUser(data["username"]);
-          this.props.setCredits(data["credits"]);
+          this.setLogIn(true);
+          this.setUser(data["username"]);
+          this.setCredits(data["credits"]);
           console.log(this.state.credits);
         }
       });
@@ -175,9 +186,9 @@ class Authentication extends React.Component {
             credits: data["credits"],
           });
           alert("Signing in after registering as " + data["username"]);
-          this.props.setLoggedIn(true);
-          this.props.setUser(data["username"]);
-          this.props.setCredits(data["credits"]);
+          this.setLogIn(true);
+          this.setUser(data["username"]);
+          this.setCredits(data["credits"]);
           console.log(this.state.credits);
         }
       });
