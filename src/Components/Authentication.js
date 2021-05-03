@@ -91,6 +91,7 @@ class Authentication extends React.Component {
     );
   }
 
+  setCredits;
   /*
     The following handlers must be updated
   */

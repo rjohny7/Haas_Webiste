@@ -62,7 +62,7 @@ function App(props) {
           {/* Page 3 Route*/}
           <Route
             path="/login"
-            render={(props) => (
+            render={() => (
               <Authentication
                 {...props}
                 loggedIn={loggedIn[0]}
