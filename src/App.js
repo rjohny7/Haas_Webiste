@@ -62,15 +62,13 @@ function App(props) {
           {/* Page 3 Route*/}
           <Route
             path="/login"
-            render={() => (
+            render={(props) => (
               <Authentication
                 {...props}
                 loggedIn={loggedIn[0]}
                 userName={userName[0]}
                 credits={credits[0]}
-                setCredits={function setCredits(_credits) {
-                  changeCredits(_credits);
-                }}
+                setCredits={(_credits) => changeCredits(_credits)}
                 setLoggedIn={function setLoggedIn(_loggedIn) {
                   changeState(_loggedIn);
                 }}
@@ -98,6 +96,8 @@ function App(props) {
                 {...props}
                 loggedIn={loggedIn[0]}
                 userName={userName[0]}
+                credits={credits[0]}
+                setCredits={(_credits) => changeCredits(_credits)}
                 setLoggedIn={function setLoggedIn(_loggedIn) {
                   changeState(_loggedIn);
                 }}
